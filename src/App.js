@@ -9,6 +9,9 @@ import HomeScreen from './screens/HomeScreen';
 import RegistroScreen from './screens/RegistroScreen';
 // Only import react-native-gesture-handler on native platforms
 import 'react-native-gesture-handler';
+import EntrenarScreen from './screens/EntrenarScreen';
+import ContadorScreen from './screens/ContadorScreen';
+import PushupScreen from './screens/PushupScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +23,9 @@ export default function App() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
+        <Stack.Screen name="Entrenar" component={EntrenarScreen} />
+        <Stack.Screen name="Pushup" component={PushupScreen} />
+        <Stack.Screen name="Contador" component={ContadorScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

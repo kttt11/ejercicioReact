@@ -20,6 +20,10 @@ const HomeScreen = ({ navigation }) => {
           title="Ejercicios"
           onPress={() => navigation.navigate('EjerciciosScreen')} // Nombre correcto de la pantalla
         />
+        <Button 
+          title="Entrenar"
+          onPress={() => navigation.navigate('EntrenarScreen')} // Nombre correcto de la pantalla
+        />
       </View>
     </View>
   );

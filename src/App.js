@@ -4,9 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import LoginScreen from './screens/LoginScreen'; 
+import SignIn from './screens/SignIn'; 
 import HomeScreen from './screens/HomeScreen'; 
 import RegistroScreen from './screens/RegistroScreen';
+import EjerciciosScreen from './screens/EjerciciosScreen';
 // Only import react-native-gesture-handler on native platforms
 import 'react-native-gesture-handler';
 
@@ -16,10 +17,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} />
+      <Stack.Navigator initialRouteName="SignIn">
+        <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
+        <Stack.Screen name="Ejercicios" component={EjerciciosScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -33,3 +35,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+

@@ -7,6 +7,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import LoginScreen from './screens/LoginScreen'; 
 import HomeScreen from './screens/HomeScreen'; 
 import RegistroScreen from './screens/RegistroScreen';
+import WelcomeScreen from './screens/WelcomeScreen';
 // Only import react-native-gesture-handler on native platforms
 import 'react-native-gesture-handler';
 
@@ -16,10 +17,11 @@ export default function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
+        <Stack.Screen name="Welcome" component={WelcomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,34 +1,59 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.welcomeText}>¡Bienvenido al Asistente Virtual de Gimnasio!</Text>
       <Text style={styles.subtitle}>¿Qué te gustaría hacer hoy?</Text>
 
       <View style={styles.buttonContainer}>
-        <Button 
-          title="Ver Rutinas"
-          onPress={() => navigation.navigate('WorkoutScreen')} 
-        />
-        <Button 
-          title="Mi Perfil"
-          onPress={() => navigation.navigate('ProfileScreen')} 
-        />
-        <Button 
-          title="Ejercicios"
-          onPress={() => navigation.navigate('EjerciciosScreen')} // Nombre correcto de la pantalla
-        />
+        {/* Botón para Ver Rutinas */}
+        <View style={styles.buttonWrapper}>
+          <Button 
+            title="Ver Rutinas"
+            onPress={() => navigation.navigate('WorkoutScreen')} 
+          />
+        </View>
+
+        {/* Botón para Mi Perfil */}
+        <View style={styles.buttonWrapper}>
+          <Button 
+            title="Mi Perfil"
+            onPress={() => navigation.navigate('ProfileScreen')} 
+          />
+        </View>
+
+        {/* Botón para Ejercicios */}
+        <View style={styles.buttonWrapper}>
+          <Button 
+            title="Ejercicios"
+            onPress={() => navigation.navigate('EjerciciosScreen')} 
+          />
+        </View>
+
+        <View style={styles.buttonWrapper}>
+  <Button 
+    title="TU CUERPO"
+    onPress={() => navigation.navigate('BodyScreen')} 
+  />
+</View>
+
+        {/* Botón para Chatear con Asistente */}
+        <View style={styles.buttonWrapper}>
+          <Button 
+            title="Chatea con tu asistente personal"
+            onPress={() => navigation.navigate('ChatAssistantScreen')} 
+          />
+        </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
+    flexGrow: 1,
     alignItems: 'center',
     padding: 16,
     backgroundColor: '#f5f5f5',
@@ -47,7 +72,9 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     paddingHorizontal: 20,
-    marginTop: 20,
+  },
+  buttonWrapper: {
+    marginVertical: 10, // Espaciado entre botones
   },
 });
 

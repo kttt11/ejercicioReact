@@ -1,9 +1,23 @@
+
+// EjerciciosScreen.js
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, Dimensions} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
+const EjerciciosScreen = () => {
+  return (
+    <View style={styles.container}>
+      <Text>Pantalla de Ejercicios</Text>
+    </View>
+  );
+};
 
-      <Text>¿Con qué le vamos a dar fuerte?</Text>
-   
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default EjerciciosScreen;
 

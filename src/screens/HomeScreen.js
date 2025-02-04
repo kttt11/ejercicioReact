@@ -1,81 +1,78 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import * as React from 'react';
+import { View, Image } from 'react-native';
+import { Button, Text, Appbar } from 'react-native-paper';
+
+const logoHome = require('../../assets/LogoHomeV2.png');
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.welcomeText}>¡Bienvenido al Asistente Virtual de Gimnasio!</Text>
-      <Text style={styles.subtitle}>¿Qué te gustaría hacer hoy?</Text>
-
-      <View style={styles.buttonContainer}>
-        {/* Botón para Ver Rutinas */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Ver Rutinas"
-            onPress={() => navigation.navigate('WorkoutScreen')} 
-          />
-        </View>
-
-        {/* Botón para Mi Perfil */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Mi Perfil"
-            onPress={() => navigation.navigate('ProfileScreen')} 
-          />
-        </View>
-
-        {/* Botón para Ejercicios */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Ejercicios"
-            onPress={() => navigation.navigate('EjerciciosScreen')} 
-          />
-        </View>
-
-        <View style={styles.buttonWrapper}>
-  <Button 
-    title="TU CUERPO"
-    onPress={() => navigation.navigate('BodyScreen')} 
-  />
-</View>
-
-        {/* Botón para Chatear con Asistente */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Chatea con tu asistente personal"
-            onPress={() => navigation.navigate('ChatAssistantScreen')} 
-          />
-        </View>
+    <View style={{ flex: 1, padding: 10, backgroundColor: '#FFFFFF', justifyContent: 'space-between' }}>
+      {/* Barra de App (opcional) */}
+      <View>
+        <Appbar style={{ backgroundColor: 'transparent', elevation: 1 }}>
+          <Appbar.Content title="" />
+        </Appbar>
       </View>
-    </ScrollView>
+
+      {/* Contenedor del Texto */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+        <Text
+          style={{
+            fontSize: 42,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontVariant: ['small-caps'],
+            lineHeight: 40,
+            marginBottom: 25,
+            color: '#09726F',
+            letterSpacing: 2,
+            
+          }}
+        >
+          ¡Bienvenido!
+        </Text>
+      </View>
+      {/* Contenedor de la Imagen */}
+      <View style={{ flex: 2, alignItems: 'center' }}>
+        <Image
+          source={logoHome}
+          style={{ width: 600, height: 400, marginBottom: 1 }}
+          resizeMode="contain"
+        />
+      </View>
+      {/* Contenedor del Texto */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+        <Text
+          style={{
+            fontSize: 17,
+            fontWeight: '500',
+            textAlign: 'center',
+            textTransform: 'none',
+            lineHeight: 20,
+            marginBottom: 70,
+            fontStyle: 'italic'
+
+
+          }}
+        >
+          Entrena con confianza, cuida tu cuerpo, y alcanza tu mejor versión.
+        </Text>
+      </View>
+
+      {/* Contenedor del Botón */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate('SignIn')}
+          style={{ backgroundColor: '#000000', paddingVertical: 6, width: '60%', marginBottom: 85 }}
+          labelStyle={{ fontSize: 18, fontWeight: 'thin', fontFamily: 'sans-serif-medium' }}
+        >
+          ¡Empezar Ahora!
+        </Button>
+      </View>
+    </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f5f5f5',
-  },
-  welcomeText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  buttonContainer: {
-    width: '100%',
-    paddingHorizontal: 20,
-  },
-  buttonWrapper: {
-    marginVertical: 10, // Espaciado entre botones
-  },
-});
 
 export default HomeScreen;

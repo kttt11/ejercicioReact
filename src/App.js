@@ -3,18 +3,13 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
-
 import { StyleSheet, Text, View } from 'react-native';
 import SignIn from './screens/SignIn'; 
-import HomeScreen from './screens/HomeScreen'; 
 import RegistroScreen from './screens/RegistroScreen';
-import EjerciciosScreen from './screens/EjerciciosScreen';
-// Only import react-native-gesture-handler on native platforms
-
+import AppNavigator from './navigation/AppNavigator';
+import Perfil from './screens/Perfil';
 import 'react-native-gesture-handler';
 
-import ChatAssistantScreen from './screens/ChatAssistantScreen';
-import BodyScreen from './screens/BodyScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,9 +20,10 @@ export default function App() {
 
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
-        <Stack.Screen name="Ejercicios" component={EjerciciosScreen} />
+        
+        {/* Aquí incluimos el TabNavigator en lugar de Home */}
+        <Stack.Screen name="Perfil" component={AppNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

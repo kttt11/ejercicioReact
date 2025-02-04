@@ -1,46 +1,67 @@
-<<<<<<< HEAD
-// navigation/AppNavigator.js
-=======
->>>>>>> e5ae06cd78b25ec01655042de54d7f584bcbecad
+// TabNavigator.js
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-<<<<<<< HEAD
-import SignIn from '../screens/SignIn';
-import HomeScreen from '../screens/HomeScreen';
-import RegistroScreen from '../screens/RegistroScreenScreen';
-import EjerciciosScreen from '../screens/EjerciciosScreen';
-=======
-
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
-import RegistroScreen from '../screens/RegistroScreen';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
 import BodyScreen from '../screens/BodyScreen';
+import EjerciciosScreen from '../screens/EjerciciosScreen';
+import HomeScreen from '../screens/HomeScreen'; // Asegúrate de importar HomeScreen
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Feather from '@expo/vector-icons/Feather';
+import Perfil from '../screens/Perfil';
 
->>>>>>> e5ae06cd78b25ec01655042de54d7f584bcbecad
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => {
+function AppNavigator() {
   return (
-<<<<<<< HEAD
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn">
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Registro" component={RegistroScreen} />
-        <Stack.Screen name="Ejercicios" component={EjerciciosScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-=======
-    <Stack.Navigator initialRouteName="Login">
-      <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Registro" component={RegistroScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="BodyScreen" component={BodyScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="ChatAssistantScreen" component={ChatAssistantScreen} options={{ headerShown: false }} />
-    </Stack.Navigator>
->>>>>>> e5ae06cd78b25ec01655042de54d7f584bcbecad
+    <Tab.Navigator
+      initialRouteName="Perfil"
+      screenOptions={{
+        tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
+        tabBarActiveTintColor: 'black', // Color del texto activo (negro)
+        tabBarInactiveTintColor: 'rgb(80, 79, 79) ', // Color del texto inactivo (gris)
+        tabBarActiveBackgroundColor: '#81d8d0', // Color de fondo activo (celeste)
+
+      }}
+    >
+      <Tab.Screen
+        name="Perfil"
+        component={Perfil}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="home-outline" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatAssistantScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Body"
+        component={BodyScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="body-outline" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Ejercicios"
+        component={EjerciciosScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="arm-flex-outline" size={24} color="black" />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
-};
+}
 
 export default AppNavigator;

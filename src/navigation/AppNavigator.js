@@ -8,14 +8,14 @@ import HomeScreen from '../screens/HomeScreen'; // Asegúrate de importar HomeSc
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Feather from '@expo/vector-icons/Feather';
-
+import Perfil from '../screens/Perfil';
 
 const Tab = createBottomTabNavigator();
 
 function AppNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Home"
+      initialRouteName="Perfil"
       screenOptions={{
         tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
         tabBarActiveTintColor: 'black', // Color del texto activo (negro)
@@ -25,8 +25,8 @@ function AppNavigator() {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={HomeScreen}
+        name="Perfil"
+        component={Perfil}
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="home-outline" size={24} color="black" />

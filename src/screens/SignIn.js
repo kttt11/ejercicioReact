@@ -28,7 +28,7 @@ const SignIn = ({ navigation }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password); // Llama a Firebase para iniciar sesión
       Alert.alert('Éxito', 'Inicio de sesión exitoso');
-      navigation.navigate('Home'); // Navega a la pantalla Ejercicios
+      navigation.navigate('Perfil'); // Navega a la pantalla Ejercicios
     } catch (error) {
       console.error(error);
       Alert.alert('Error usuario o contraseña mal ingresados'); // Muestra un mensaje de error si falla el inicio de sesión

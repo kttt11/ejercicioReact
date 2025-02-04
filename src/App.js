@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import SignIn from './screens/SignIn'; 
 import RegistroScreen from './screens/RegistroScreen';
 import AppNavigator from './navigation/AppNavigator';
+import Perfil from './screens/Perfil';
 import 'react-native-gesture-handler';
 
 
@@ -21,7 +22,7 @@ export default function App() {
         <Stack.Screen name="Registro" component={RegistroScreen} />
         
         {/* Aquí incluimos el TabNavigator en lugar de Home */}
-        <Stack.Screen name="Home" component={AppNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Perfil" component={AppNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

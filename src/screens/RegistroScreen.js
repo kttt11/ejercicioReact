@@ -40,7 +40,7 @@ const RegistroScreen = ({ navigation }) => {
       // Crear un nuevo usuario con email y contraseña
       await createUserWithEmailAndPassword(auth, email, password);
       Alert.alert('Registro Exitoso', `Bienvenido/a ${name} ${lastName}!`);
-      navigation.navigate('Ejercicios'); // Cambia 'Ejercicios' por el nombre correcto de tu pantalla de ejercicios
+      navigation.navigate('Home'); // Cambia 'Ejercicios' por el nombre correcto de tu pantalla de ejercicios
     } catch (error) {
       console.error(error);
       Alert.alert('Error', error.message); // Muestra un mensaje de error si falla el registro

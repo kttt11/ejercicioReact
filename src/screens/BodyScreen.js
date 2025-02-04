@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Button, Image } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BodyScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -51,38 +52,40 @@ const BodyScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* Mensaje superior izquierdo */}
-      <Text style={styles.topText}>Veamos qué tipo de cuerpo tienes</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        {/* Mensaje superior izquierdo */}
+        <Text style={styles.topText}>Veamos qué tipo de cuerpo tienes</Text>
 
-      {/* Mensaje central */}
-      <Text style={styles.instructionText}>Sube una foto de tu cuerpo completo aquí</Text>
+        {/* Mensaje central */}
+        <Text style={styles.instructionText}>Sube una foto de tu cuerpo completo aquí</Text>
 
-      {/* Área de carga de imagen */}
-      <View style={styles.imageUploadContainer}>
-        {selectedImage ? (
-          <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
-        ) : (
-          <Button title="Subir Foto" onPress={pickImage} />
-        )}
-      </View>
-
-      {/* Botón para analizar la imagen */}
-      <Button title="Analizar tu cuerpo" onPress={analyzeBody} />
-
-      {/* Cuadro para mostrar el resultado */}
-      {analysisResult ? (
-        <View style={styles.resultContainer}>
-          <Text style={styles.resultText}>{analysisResult}</Text>
+        {/* Área de carga de imagen */}
+        <View style={styles.imageUploadContainer}>
+          {selectedImage ? (
+            <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
+          ) : (
+            <Button title="Subir Foto" onPress={pickImage} />
+          )}
         </View>
-      ) : null}
 
-      {/* Botón para regresar a la pantalla de inicio */}
-      <Button
-        title="Regresar a Inicio"
-        onPress={() => navigation.navigate('Home')}
-      />
-    </View>
+        {/* Botón para analizar la imagen */}
+        <Button title="Analizar tu cuerpo" onPress={analyzeBody} />
+
+        {/* Cuadro para mostrar el resultado */}
+        {analysisResult ? (
+          <View style={styles.resultContainer}>
+            <Text style={styles.resultText}>{analysisResult}</Text>
+          </View>
+        ) : null}
+
+        {/* Botón para regresar a la pantalla de inicio */}
+        <Button
+          title="Regresar a Inicio"
+          onPress={() => navigation.navigate('Home')}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -100,7 +103,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 10,
-    textAlign: 'left', // Asegura que el texto esté alineado a la izquierda
+    textAlign: 'center', // Asegura que el texto esté alineado a la izquierda
   },
   instructionText: {
     fontSize: 16,

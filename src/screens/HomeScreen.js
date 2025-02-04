@@ -1,53 +1,56 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen = ({ navigation }) => {
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.welcomeText}>¡Bienvenido al Asistente Virtual de Gimnasio!</Text>
-      <Text style={styles.subtitle}>¿Qué te gustaría hacer hoy?</Text>
+    <SafeAreaView style={{ flex: 1 }}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <Text style={styles.welcomeText}>¡Bienvenido a GymBro!</Text>
+        <Text style={styles.subtitle}>¿Qué te gustaría hacer hoy?</Text>
 
-      <View style={styles.buttonContainer}>
-        {/* Botón para Ver Rutinas */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Ver Rutinas"
-            onPress={() => navigation.navigate('WorkoutScreen')} 
-          />
+        <View style={styles.buttonContainer}>
+          {/* Botón para Ver Rutinas */}
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Ver Rutinas"
+              onPress={() => navigation.navigate('WorkoutScreen')}
+            />
+          </View>
+
+          {/* Botón para Mi Perfil */}
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Mi Perfil"
+              onPress={() => navigation.navigate('ProfileScreen')}
+            />
+          </View>
+
+          {/* Botón para Ejercicios */}
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Ejercicios"
+              onPress={() => navigation.navigate('EjerciciosScreen')}
+            />
+          </View>
+
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="TU CUERPO"
+              onPress={() => navigation.navigate('BodyScreen')}
+            />
+          </View>
+
+          {/* Botón para Chatear con Asistente */}
+          <View style={styles.buttonWrapper}>
+            <Button
+              title="Chatea con tu asistente personal"
+              onPress={() => navigation.navigate('ChatAssistantScreen')}
+            />
+          </View>
         </View>
-
-        {/* Botón para Mi Perfil */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Mi Perfil"
-            onPress={() => navigation.navigate('ProfileScreen')} 
-          />
-        </View>
-
-        {/* Botón para Ejercicios */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Ejercicios"
-            onPress={() => navigation.navigate('EjerciciosScreen')} 
-          />
-        </View>
-
-        <View style={styles.buttonWrapper}>
-  <Button 
-    title="TU CUERPO"
-    onPress={() => navigation.navigate('BodyScreen')} 
-  />
-</View>
-
-        {/* Botón para Chatear con Asistente */}
-        <View style={styles.buttonWrapper}>
-          <Button 
-            title="Chatea con tu asistente personal"
-            onPress={() => navigation.navigate('ChatAssistantScreen')} 
-          />
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 

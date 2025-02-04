@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, Button, FlatList,StyleSheet,} from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { speak, isSpeakingAsync, stop } from 'expo-speech';
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const ChatAssistantScreen = () => {
   const [chat, setChat] = useState([]); // Mensajes de chat
@@ -9,7 +10,7 @@ const ChatAssistantScreen = () => {
   const [isSpeaking, setIsSpeaking] = useState(false); // Estado para el manejo de voz
 
   const flatListRef = useRef(null); // Referencia para el FlatList
-  const navigation = useNavigation(); // Navegación para el botón de "Volver"
+
 
   // Maneja el envío del mensaje
   const handleSendMessage = () => {
@@ -60,38 +61,40 @@ const ChatAssistantScreen = () => {
       <Text style={styles.chatText}>{item.text}</Text>
       {item.role === 'assistant' && (
         <View style={styles.speakerButton}>
-          <Button title="🔊" onPress={() => handleSpeech(item.text)} color="#fff" />
+          <TouchableOpacity onPress={() => handleSpeech(item.text)} style={styles.speakerButtonStyle}>
+            <Text style={styles.speakerButtonText}>🔊</Text>
+          </TouchableOpacity>
         </View>
       )}
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Asistente Virtual</Text>
+    <SafeAreaView style={{ flex: 5 }}>
+      <View style={styles.container}>
+        <Text style={styles.header}>Asistente Virtual</Text>
 
-      <FlatList
-        ref={flatListRef}
-        data={chat}
-        keyExtractor={(item) => item.id}
-        renderItem={renderChatItem}
-        style={styles.chatContainer}
-      />
-
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInput}
-          placeholder="Escribe tu mensaje..."
-          value={userInput}
-          onChangeText={setUserInput}
+        <FlatList
+          ref={flatListRef}
+          data={chat}
+          keyExtractor={(item) => item.id}
+          renderItem={renderChatItem}
+          style={styles.chatContainer}
         />
-        <Button title="Enviar" onPress={handleSendMessage} />
-      </View>
 
-      <View style={styles.goBackButton}>
-        <Button title="Volver" onPress={() => navigation.goBack()} />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.textInput}
+            placeholder="Escribe tu mensaje..."
+            value={userInput}
+            onChangeText={setUserInput}
+          />
+          <TouchableOpacity onPress={handleSendMessage} style={styles.sendButton}>
+            <Text style={styles.sendButtonText}>Enviar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -151,11 +154,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
   },
-  speakerButton: {
-    position: 'absolute',
-    bottom: 5,
-    right: 5,
-  },
+  
+// Estilos para los botones personalizados
+sendButton: {
+   backgroundColor:'#81d8d0', // Color de fondo del botón enviar
+   paddingVertical:10,
+   paddingHorizontal :20,
+   borderRadius :5,
+},
+sendButtonText:{
+   color:'#FFFFFF', // Color del texto del botón enviar
+   fontWeight:'bold',
+},
+backButtonText:{
+   color:'#FFFFFF', // Color del texto del botón volver
+   fontWeight:'bold',
+},
+speakerButtonStyle:{
+   backgroundColor:'#007AFF', // Color de fondo del botón de voz
+   paddingVertical :5,
+   paddingHorizontal :10,
+   borderRadius :5,
+},
+speakerButtonText:{
+   color:'#FFFFFF', // Color del texto del botón de voz
+},
 });
 
 export default ChatAssistantScreen;

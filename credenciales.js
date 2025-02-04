@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'; 
 import { getAnalytics } from "firebase/analytics";
@@ -8,13 +7,13 @@ import { getAnalytics } from "firebase/analytics";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.REACT_APP_FIREBASE_APP_ID,
-  measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID
+  apiKey: "AIzaSyBsMXzZRrm21b6k6FPEMjLK1_ULDF3RWdc",
+  authDomain: "gymnasio-719fa.firebaseapp.com",
+  projectId: "gymnasio-719fa",
+  storageBucket: "gymnasio-719fa.firebasestorage.app",
+  messagingSenderId: "103652861670",
+  appId: "1:103652861670:web:744b8ba6559e7a3fda7d27",
+  measurementId: "G-TMB5GL5EXM"
 };
 
 // Initialize Firebase
@@ -25,4 +24,4 @@ const auth = getAuth(appFirebase);
 // Inicializa Google Analytics (opcional)
 const analytics = getAnalytics(appFirebase); // Solo si necesitas analítica
 
-export { appFirebase, auth, analytics }; // Exporta lo que necesites
+export { appFirebase, auth, analytics }; // Exporta lo que necesites

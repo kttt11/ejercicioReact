@@ -1,17 +1,40 @@
 import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-const PushupScreen = ({ navigation }) => {
+const PushupScreen = ({ route, navigation }) => {
+  // Determinar si es Push Up o Press Militar
+  const { exercise } = route.params || { exercise: "pushup" };
+
+  // Datos de cada ejercicio
+  const exercises = {
+    pushup: {
+      title: "Push Up",
+      description:
+        "Consiste en recostarse boca abajo sobre el suelo y empujar con las manos para elevar el cuerpo hasta que los brazos queden estirados.",
+      image: "https://static.wixstatic.com/media/2edbed_8c01db116a174865aa48bd3a1b58e191~mv2.gif",
+    },
+    pressmilitar: {
+      title: "Press Militar",
+      description:
+        "Un ejercicio enfocado en el desarrollo de los hombros. Se realiza levantando una barra o mancuernas por encima de la cabeza.",
+      image: "https://fitcron.com/wp-content/uploads/2021/04/02871301-Dumbbell-Arnold-Press-II_Shoulders_720.gif",
+    },
+  };
+
+  const { title, description, image } = exercises[exercise];
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Push Up</Text>
+      <Text style={styles.title}>{title}</Text>
       <View style={styles.imagePlaceholder}>
-        <Image source={{ uri: "https://i.gifer.com/origin/83/833df348882dfb76dad4da58c843fa0b.gif" }} style={styles.image} />
+        <Image source={{ uri: image }} style={styles.image} />
       </View>
-      <Text style={styles.description}>
-        Consiste en recostarse boca abajo sobre el suelo y empujar con las manos para elevar el cuerpo hasta que los brazos queden estirados.
-      </Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("ContadorScreen")}>
+      <Text style={styles.description}>{description}</Text>
+      <TouchableOpacity
+        style={styles.button}
+        // El siguiente código de navegación está desactivado por ahora
+        // onPress={() => navigation.navigate("Contador")}
+      >
         <Text style={styles.buttonText}>Entrenar</Text>
       </TouchableOpacity>
     </View>

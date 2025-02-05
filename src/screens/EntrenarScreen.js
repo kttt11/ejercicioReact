@@ -1,100 +1,126 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import React from "react";
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 const EntrenarScreen = ({ navigation }) => {
   return (
-    <View style={styles.container}>
-      {/* Encabezado con el nombre del usuario y un icono de perfil */}
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Encabezado */}
       <View style={styles.header}>
         <Text style={styles.greeting}>Hey, Karol</Text>
-        <Ionicons name="person-circle-outline" size={24} color="black" />
+        <Ionicons name="person-circle-outline" size={30} color="black" />
       </View>
-      
-      {/* Sección de ejercicios con imagen y navegación */}
-      <TouchableOpacity onPress={() => navigation.navigate('EntrenarScreen')}>
-        <Text style={styles.title}>Ejercicios</Text>
-      </TouchableOpacity>
-      <Image 
-        source={{ uri: 'https://i.etsystatic.com/13221305/r/il/70e1af/1765869258/il_570xN.1765869258_3lbp.jpg' }} 
-        style={styles.icon} 
+
+      {/* Sección de ejercicios */}
+      <Text style={styles.title}>Ejercicios</Text>
+      <Image
+        source={{
+          uri: "https://i.etsystatic.com/13221305/r/il/70e1af/1765869258/il_570xN.1765869258_3lbp.jpg",
+        }}
+        style={styles.icon}
       />
-      
       <Text style={styles.subtitle}>Entrenar</Text>
-      
-      {/* Botón de Push UP con imagen personalizada y navegación */}
+
+      {/* Botón de Push UP */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EntrenarScreen')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Pushup", { exercise: "pushup" })}
+        >
           <Text style={styles.buttonText}>Push UP</Text>
         </TouchableOpacity>
-        <Image source={{ uri: 'https://static.vecteezy.com/system/resources/previews/007/731/236/non_2x/boy-doing-push-up-exercise-on-a-floor-mat-illustration-man-doing-push-ups-for-body-strength-and-muscle-buildup-bodybuilder-flat-character-design-doing-push-up-exercise-vector.jpg' }} style={styles.image} />
+        <Image
+          source={{
+            uri: "https://static.strengthlevel.com/images/exercises/push-ups/push-ups-800.jpg",
+          }}
+          style={styles.image}
+        />
       </View>
-      
-      {/* Botón de Press Militar con imagen personalizada y navegación */}
+
+      {/* Botón de Press Militar */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('EntrenarScreen')}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate("Pushup", { exercise: "pressmilitar" })}
+        >
           <Text style={styles.buttonText}>Press Militar</Text>
         </TouchableOpacity>
-        <Image source={{ uri: 'https://www.deportrainer.com/img/cms/Post%20de%20blog/ejercicios_hombro/ejercicio-press-militar-con-barra-sentado.jpg' }} style={styles.image} />
+        <Image
+          source={{
+            uri: "https://www.deportrainer.com/img/cms/Post%20de%20blog/ejercicios_hombro/ejercicio-press-militar-con-barra-sentado.jpg",
+          }}
+          style={styles.image}
+        />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#f5f5f5', // Color de fondo corregido
-    paddingTop: 50,
+    flexGrow: 1,
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    paddingTop: 40,
+    paddingBottom: 20,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '90%',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "90%",
+    alignItems: "center",
+    marginBottom: 20,
   },
   greeting: {
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: "bold",
   },
   title: {
-    fontSize: 22,
-    fontWeight: 'bold',
+    fontSize: 24,
+    fontWeight: "bold",
     marginTop: 20,
+    textAlign: "center",
+    width: "100%",
   },
   icon: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     marginVertical: 20,
+    borderRadius: 8,
   },
   subtitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 15,
+    textAlign: "center",
+    width: "100%",
   },
   buttonContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    width: '80%',
-    marginVertical: 5,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "90%",
+    marginVertical: 10,
+    marginHorizontal: 10,
   },
   button: {
-    backgroundColor: '#333',
-    padding: 15,
-    borderRadius: 8,
-    width: '60%',
-    alignItems: 'center',
+    backgroundColor: "#333",
+    paddingVertical: 15,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    width: "65%",
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonText: {
-    color: '#fff',
-    fontSize: 16,
+    color: "#fff",
+    fontSize: 18,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     borderRadius: 8,
+    marginLeft: 10,
   },
 });
 

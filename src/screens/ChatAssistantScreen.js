@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, Button, FlatList,StyleSheet,} from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, TextInput, Button, FlatList, StyleSheet, } from 'react-native';
 import { speak, isSpeakingAsync, stop } from 'expo-speech';
 import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
 
 const ChatAssistantScreen = () => {
   const [chat, setChat] = useState([]); // Mensajes de chat
@@ -10,32 +11,56 @@ const ChatAssistantScreen = () => {
 
   const flatListRef = useRef(null); // Referencia para el FlatList
   const navigation = useNavigation(); // Navegación para el botón de "Volver"
+  const [messagechatbot, setMessagechatbot] = useState("");
 
-  // Maneja el envío del mensaje
-  const handleSendMessage = () => {
+
+  const responsechatbot = async (messageQ) => {
+    try {
+      const response = await axios.post(`http://192.168.0.104:8000/chatbot`, {
+        message: messageQ,
+      });
+      return response.data.response; // Retorna la respuesta del chatbot
+    } catch (error) {
+      console.error("Error en el Chat:", error.response?.data || error.message);
+      return "Error al obtener respuesta"; // Devuelve un mensaje de error
+    }
+  };
+  
+  const handleSendMessage = async () => {
     if (userInput.trim() === '') return;
-
+  
+    // Mensaje del usuario
     const newUserMessage = {
       id: `${chat.length}`,
       role: 'user',
       text: userInput,
     };
-
+  
+    // Actualiza el chat con el mensaje del usuario
     const updatedChat = [...chat, newUserMessage];
-
-    // Simulación de respuesta automática
-    const botReply = {
-      id: `${updatedChat.length}`,
-      role: 'assistant',
-      text: 'Este es un ejemplo de respuesta automática.',
-    };
-
-    const finalChat = [...updatedChat, botReply];
-    setChat(finalChat);
+    setChat(updatedChat);
     setUserInput('');
+  
+    try {
+      // Espera la respuesta del chatbot
+      const botResponse = await responsechatbot(userInput);
+  
+      // Mensaje del chatbot
+      const botReply = {
+        id: `${updatedChat.length}`,
+        role: 'assistant',
+        text: botResponse, // Usa la respuesta obtenida
+      };
+  
+      // Agrega la respuesta del chatbot al chat
+      setChat([...updatedChat, botReply]);
+    } catch (error) {
+      console.error("Error en el chatbot:", error);
+    }
+  
+    // Desplazamiento automático al final del chat
     setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
   };
-
   // Maneja la síntesis de voz
   const handleSpeech = async (text) => {
     if (isSpeaking) {

@@ -24,4 +24,4 @@ const auth = getAuth(appFirebase);
 // Inicializa Google Analytics (opcional)
 const analytics = getAnalytics(appFirebase); // Solo si necesitas analítica
 
-export { appFirebase, auth, analytics }; // Exporta lo que necesites
+export { appFirebase, auth, analytics }; // Exporta lo que necesites

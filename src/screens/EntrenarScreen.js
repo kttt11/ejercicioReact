@@ -7,50 +7,44 @@ const EntrenarScreen = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       {/* Encabezado */}
       <View style={styles.header}>
-        <Text style={styles.greeting}>Hey, Karol</Text>
-        <Ionicons name="person-circle-outline" size={30} color="black" />
+        <Text style={styles.headerTitle}>Entrenamiento</Text>
       </View>
 
-      {/* Sección de ejercicios */}
-      <Text style={styles.title}>Ejercicios</Text>
+      {/* Espaciado adicional después del título */}
+      <View style={styles.spacing} />
+      
+      {/* Ilustración de cabecera */}
       <Image
-        source={{
-          uri: "https://i.etsystatic.com/13221305/r/il/70e1af/1765869258/il_570xN.1765869258_3lbp.jpg",
-        }}
-        style={styles.icon}
+        source={{ uri: "https://i.etsystatic.com/13221305/r/il/70e1af/1765869258/il_570xN.1765869258_3lbp.jpg" }}
+        style={styles.mainIcon}
       />
-      <Text style={styles.subtitle}>Entrenar</Text>
 
-      {/* Botón de Push UP */}
-      <View style={styles.buttonContainer}>
+      {/* Título dinámico */}
+      <Text style={styles.title}>Elige tu entrenamiento</Text>
+
+      {/* Sección de ejercicios con animaciones y mejor diseño */}
+      <View style={styles.exerciseList}>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.exerciseCard}
           onPress={() => navigation.navigate("Pushup", { exercise: "pushup" })}
         >
-          <Text style={styles.buttonText}>Push UP</Text>
+          <Image
+            source={{ uri: "https://static.strengthlevel.com/images/exercises/push-ups/push-ups-800.jpg" }}
+            style={styles.exerciseImage}
+          />
+          <Text style={styles.exerciseText}>Push Up</Text>
         </TouchableOpacity>
-        <Image
-          source={{
-            uri: "https://static.strengthlevel.com/images/exercises/push-ups/push-ups-800.jpg",
-          }}
-          style={styles.image}
-        />
-      </View>
 
-      {/* Botón de Press Militar */}
-      <View style={styles.buttonContainer}>
         <TouchableOpacity
-          style={styles.button}
+          style={styles.exerciseCard}
           onPress={() => navigation.navigate("Pushup", { exercise: "pressmilitar" })}
         >
-          <Text style={styles.buttonText}>Press Militar</Text>
+          <Image
+            source={{ uri: "https://static.strengthlevel.com/images/exercises/seated-dumbbell-shoulder-press/seated-dumbbell-shoulder-press-800.jpg" }}
+            style={styles.exerciseImage}
+          />
+          <Text style={styles.exerciseText}>Press Militar</Text>
         </TouchableOpacity>
-        <Image
-          source={{
-            uri: "https://www.deportrainer.com/img/cms/Post%20de%20blog/ejercicios_hombro/ejercicio-press-militar-con-barra-sentado.jpg",
-          }}
-          style={styles.image}
-        />
       </View>
     </ScrollView>
   );
@@ -60,67 +54,65 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: "center",
-    backgroundColor: "#f5f5f5",
-    paddingTop: 40,
+    backgroundColor: "#f0f0f5",
+    paddingTop: 0,
     paddingBottom: 20,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "90%",
+    width: "100%",
+    paddingVertical: 15,
+    backgroundColor: "#333",
     alignItems: "center",
-    marginBottom: 20,
   },
-  greeting: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  title: {
+  headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginTop: 20,
-    textAlign: "center",
-    width: "100%",
+    color: "#fff",
   },
-  icon: {
+  spacing: {
+    height: 20,
+  },
+  mainIcon: {
     width: 120,
     height: 120,
-    marginVertical: 20,
-    borderRadius: 8,
+    marginBottom: 10,
+    borderRadius: 12,
   },
-  subtitle: {
-    fontSize: 20,
+  title: {
+    fontSize: 26,
     fontWeight: "bold",
-    marginBottom: 15,
     textAlign: "center",
-    width: "100%",
+    marginBottom: 20,
+    color: "#333",
   },
-  buttonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  exerciseList: {
     width: "90%",
-    marginVertical: 10,
-    marginHorizontal: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
-  button: {
-    backgroundColor: "#333",
-    paddingVertical: 15,
-    paddingHorizontal: 25,
-    borderRadius: 10,
-    width: "65%",
+  exerciseCard: {
+    backgroundColor: "#fff",
+    borderRadius: 16,
+    padding: 15,
     alignItems: "center",
     justifyContent: "center",
+    width: "45%",
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 5,
+    transform: [{ scale: 1 }],
   },
-  buttonText: {
-    color: "#fff",
+  exerciseImage: {
+    width: 90,
+    height: 90,
+    borderRadius: 10,
+  },
+  exerciseText: {
     fontSize: 18,
-  },
-  image: {
-    width: 60,
-    height: 60,
-    borderRadius: 8,
-    marginLeft: 10,
+    fontWeight: "bold",
+    marginTop: 12,
+    color: "#444",
   },
 });
 

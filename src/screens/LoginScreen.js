@@ -13,7 +13,7 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert('Error', 'Por favor, completa todos los campos.');
       return;
     }
-    navigation.navigate('Entrenar'); // Cambia 'Home' por el nombre correcto de tu pantalla de inicio
+    navigation.navigate('Contador'); // Cambia 'Home' por el nombre correcto de tu pantalla de inicio
   };
 
   return (

@@ -1,22 +1,20 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
 const PushupScreen = ({ route, navigation }) => {
-  // Determinar si es Push Up o Press Militar
   const { exercise } = route.params || { exercise: "pushup" };
 
-  // Datos de cada ejercicio
   const exercises = {
     pushup: {
       title: "Push Up",
       description:
-        "Consiste en recostarse boca abajo sobre el suelo y empujar con las manos para elevar el cuerpo hasta que los brazos queden estirados.",
+        "Recóstate boca abajo y empuja con las manos para elevar el cuerpo hasta estirar los brazos.",
       image: "https://static.wixstatic.com/media/2edbed_8c01db116a174865aa48bd3a1b58e191~mv2.gif",
     },
     pressmilitar: {
       title: "Press Militar",
       description:
-        "Un ejercicio enfocado en el desarrollo de los hombros. Se realiza levantando una barra o mancuernas por encima de la cabeza.",
+        "Ejercicio para hombros, levantando una barra o mancuernas por encima de la cabeza.",
       image: "https://fitcron.com/wp-content/uploads/2021/04/02871301-Dumbbell-Arnold-Press-II_Shoulders_720.gif",
     },
   };
@@ -24,64 +22,93 @@ const PushupScreen = ({ route, navigation }) => {
   const { title, description, image } = exercises[exercise];
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{title}</Text>
-      <View style={styles.imagePlaceholder}>
-        <Image source={{ uri: image }} style={styles.image} />
+    <ScrollView contentContainerStyle={styles.container}>
+      {/* Encabezado */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Rutina de Entrenamiento</Text>
       </View>
+
+      {/* Espaciado adicional después del encabezado */}
+      <View style={styles.spacing} />
+
+      {/* Título dinámico */}
+      <Text style={styles.title}>{title}</Text>
+
+      {/* Imagen del ejercicio */}
+      <Image source={{ uri: image }} style={styles.image} />
+
+      {/* Descripción del ejercicio */}
       <Text style={styles.description}>{description}</Text>
-      <TouchableOpacity
-        style={styles.button}
-        // El siguiente código de navegación está desactivado por ahora
-        // onPress={() => navigation.navigate("Contador")}
-      >
+
+      {/* Botón para comenzar entrenamiento */}
+      <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Entrenar</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#F0F0F5",
+    paddingTop: 0,
+    paddingBottom: 20,
   },
-  title: {
+  header: {
+    width: "100%",
+    paddingVertical: 15,
+    backgroundColor: "#333",
+    alignItems: "center",
+  },
+  headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    marginBottom: 10,
+    color: "#fff",
   },
-  imagePlaceholder: {
-    width: 200,
-    height: 200,
-    backgroundColor: "#E0E0E0",
-    justifyContent: "center",
-    alignItems: "center",
+  spacing: {
+    height: 20,
+  },
+  mainIcon: {
+    width: 120,
+    height: 120,
+    marginBottom: 10,
+    borderRadius: 12,
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 20,
+    color: "#333",
   },
   image: {
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover",
+    width: 220,
+    height: 220,
+    borderRadius: 10,
+    marginBottom: 20,
   },
   description: {
     textAlign: "center",
-    marginBottom: 20,
-    fontSize: 16,
-    color: "#666",
+    fontSize: 18,
+    color: "#555",
+    marginBottom: 25,
+    paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: "#333",
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
+    backgroundColor: "#171616",
+    paddingVertical: 12,
+    paddingHorizontal: 30,
+    borderRadius: 10,
+    shadowColor: "#000",
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+    elevation: 5,
   },
   buttonText: {
     color: "#FFF",
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: "bold",
   },
 });

@@ -1,120 +1,69 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { Camera } from "expo-camera";
-import * as tf from "@tensorflow/tfjs";
-import "@tensorflow/tfjs-react-native";
-import * as cocoSsd from "@tensorflow-models/coco-ssd";
 
 const ContadorScreen = () => {
   const [count, setCount] = useState(0);
   const [cameraPermission, setCameraPermission] = useState(null);
   const [isCameraVisible, setIsCameraVisible] = useState(false);
-  const [isCameraReady, setIsCameraReady] = useState(false);
-  const [model, setModel] = useState(null);
   const cameraRef = useRef(null);
-  const intervalRef = useRef(null); // Guardar referencia del setInterval
 
-  // 🚀 Cargar modelo de detección de objetos al iniciar la app
+  // Pedimos permisos de cámara al cargar la pantalla
   useEffect(() => {
-    const loadModel = async () => {
-      await tf.ready(); // Asegurar que TensorFlow.js está listo
-      const loadedModel = await cocoSsd.load();
-      setModel(loadedModel);
-      console.log("Modelo COCO-SSD cargado");
-    };
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setCameraPermission(status === "granted");
+    })();
+  }, []);
 
-    loadModel();
+  // Función para activar/desactivar la cámara
+  const toggleCamera = () => {
+    if (cameraPermission) {
+      setIsCameraVisible((prev) => !prev);
+    } else {
+      Alert.alert("Permiso denegado", "No tienes acceso a la cámara.");
+    }
+  };
 
-    // Limpiar el intervalo al desmontar el componente
+  // Cierra la cámara cuando el componente se desmonta
+  useEffect(() => {
     return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-      }
+      setIsCameraVisible(false);
     };
   }, []);
 
-  // 🔄 Detectar objetos en tiempo real
-  const detectObjects = async () => {
-    if (!cameraRef.current || !model) return;
-
-    try {
-      const photo = await cameraRef.current.takePictureAsync({ base64: true }); // Capturar imagen
-      const imageTensor = tf.browser.fromPixels(photo); // Convertir imagen a tensor
-      const predictions = await model.detect(imageTensor); // Hacer predicciones
-
-      console.log("Predicciones:", predictions);
-
-      // Si detecta una persona haciendo push-ups, aumentar el contador
-      const pushUpsDetected = predictions.some((pred) => pred.class === "person" && pred.score > 0.6);
-      if (pushUpsDetected) {
-        setCount((prev) => prev + 1);
-      }
-    } catch (error) {
-      console.error("Error en la detección:", error);
-    }
-  };
-
-  const handleCameraPress = async () => {
-    if (cameraPermission === null) {
-      console.log("Solicitando permisos de cámara...");
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setCameraPermission(status === "granted");
-
-      if (status !== "granted") {
-        Alert.alert("Permiso denegado", "Habilita la cámara en la configuración del dispositivo.");
-        return;
-      }
-    }
-
-    console.log("Activando cámara...");
-    setIsCameraVisible(true);
-  };
-
-  const handleCameraReady = () => {
-    console.log("Cámara lista!");
-    setIsCameraReady(true);
-
-    // Iniciar detección en tiempo real cada 2 segundos
-    if (!intervalRef.current) {
-      intervalRef.current = setInterval(() => {
-        detectObjects();
-      }, 2000);
-    }
-  };
-
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>PUSH UP COUNTER</Text>
+      <Text style={styles.title}>PUSH UP</Text>
       <Text style={styles.counterText}>
         CONTADOR: <Text style={styles.counter}>{count}</Text>
       </Text>
 
       <View style={styles.cameraContainer}>
         {isCameraVisible ? (
-          isCameraReady ? (
-            <Camera
-              ref={cameraRef}
-              style={styles.camera}
-              type={Camera.Constants.Type.front}
-              onCameraReady={handleCameraReady}
-            />
-          ) : (
-            <ActivityIndicator size="large" color="#0000ff" />
-          )
+          <Camera
+            ref={cameraRef}
+            style={styles.camera}
+            type={Camera.Constants.Type.front}
+            onCameraReady={() => console.log("📸 Cámara lista")}
+          />
         ) : (
           <View style={styles.noCameraContainer}>
-            <Text style={styles.noCameraText}>Presiona el botón para activar la cámara</Text>
+            <Text style={styles.noCameraText}>
+              Presiona el botón para activar la cámara
+            </Text>
           </View>
         )}
       </View>
 
-      <TouchableOpacity style={styles.cameraButton} onPress={handleCameraPress}>
-        <Text style={styles.cameraIcon}>📷</Text>
+      <TouchableOpacity style={styles.cameraButton} onPress={toggleCamera}>
+        <Text style={styles.cameraIcon}>{isCameraVisible ? "❌" : "📷"}</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
+// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -147,6 +96,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   camera: {
+    flex: 1, // Asegura que la cámara ocupe todo el espacio disponible
     width: "100%",
     height: "100%",
   },

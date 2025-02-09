@@ -4,7 +4,7 @@ import { Button, Text, Appbar } from 'react-native-paper';
 
 const logoHome = require('../../assets/LogoHomeV2.png');
 
-const HomeScreen = ({ navigation }) => {
+const HomeScreen = ({navigation}) => {
   return (
     <View style={{ flex: 1, padding: 10, backgroundColor: '#FFFFFF', justifyContent: 'space-between' }}>
       {/* Barra de App (opcional) */}
@@ -65,8 +65,8 @@ const HomeScreen = ({ navigation }) => {
         <Button
           mode="contained"
           onPress={() => navigation.navigate('SignIn')}
-          style={{ backgroundColor: '#000000', paddingVertical: 6, width: '60%', marginBottom: 85 }}
-          labelStyle={{ fontSize: 18, fontWeight: 'thin', fontFamily: 'sans-serif-medium' }}
+          style={{ backgroundColor: '#09726F', paddingVertical: 6, width: '60%', marginBottom: 70 }}
+          labelStyle={{ fontSize: 14, fontWeight: 'thin', fontFamily: 'sans-serif-medium' }}
         >
           ¡Empezar Ahora!
         </Button>

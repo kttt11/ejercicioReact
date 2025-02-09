@@ -1,70 +1,43 @@
-
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet, } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
 import { speak, isSpeakingAsync, stop } from 'expo-speech';
 import { useNavigation } from '@react-navigation/native';
-import axios from "axios";
-import { SafeAreaView } from 'react-native-safe-area-context';
-
 
 const ChatAssistantScreen = () => {
-  const [chat, setChat] = useState([]); // Mensajes de chat
-  const [userInput, setUserInput] = useState(''); // Entrada del usuario
-  const [isSpeaking, setIsSpeaking] = useState(false); // Estado para el manejo de voz
+  const [chat, setChat] = useState([]);
+  const [userInput, setUserInput] = useState('');
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
-  const flatListRef = useRef(null); // Referencia para el FlatList
-  const navigation = useNavigation(); // Navegación para el botón de "Volver"
-  const [messagechatbot, setMessagechatbot] = useState("");
+  const flatListRef = useRef(null);
+  const navigation = useNavigation();
 
-
-  const responsechatbot = async (messageQ) => {
-    try {
-      const response = await axios.post(`http://192.168.0.104:8000/chatbot`, {
-        message: messageQ,
-      });
-      return response.data.response; // Retorna la respuesta del chatbot
-    } catch (error) {
-      console.error("Error en el Chat:", error.response?.data || error.message);
-      return "Error al obtener respuesta"; // Devuelve un mensaje de error
-    }
-  };
-  
-  const handleSendMessage = async () => {
+  const handleSendMessage = () => {
     if (userInput.trim() === '') return;
-  
-    // Mensaje del usuario
+
     const newUserMessage = {
       id: `${chat.length}`,
       role: 'user',
       text: userInput,
     };
-  
-    // Actualiza el chat con el mensaje del usuario
+
     const updatedChat = [...chat, newUserMessage];
-    setChat(updatedChat);
+
+    // Simulación de respuesta automática
+    const botReply = {
+      id: `${updatedChat.length}`,
+      role: 'assistant',
+      text: 'Este es un ejemplo de respuesta automática.',
+    };
+
+    const finalChat = [...updatedChat, botReply];
+    setChat(finalChat);
     setUserInput('');
-  
-    try {
-      // Espera la respuesta del chatbot
-      const botResponse = await responsechatbot(userInput);
-  
-      // Mensaje del chatbot
-      const botReply = {
-        id: `${updatedChat.length}`,
-        role: 'assistant',
-        text: botResponse, // Usa la respuesta obtenida
-      };
-  
-      // Agrega la respuesta del chatbot al chat
-      setChat([...updatedChat, botReply]);
-    } catch (error) {
-      console.error("Error en el chatbot:", error);
-    }
-  
-    // Desplazamiento automático al final del chat
-    setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
+    setTimeout(
+      () => flatListRef.current?.scrollToEnd({ animated: true }),
+      100
+    );
   };
-  // Maneja la síntesis de voz
+
   const handleSpeech = async (text) => {
     if (isSpeaking) {
       stop();
@@ -77,7 +50,6 @@ const ChatAssistantScreen = () => {
     }
   };
 
-  // Renderizado de cada mensaje
   const renderChatItem = ({ item }) => (
     <View
       style={[
@@ -88,55 +60,62 @@ const ChatAssistantScreen = () => {
       <Text style={styles.chatText}>{item.text}</Text>
       {item.role === 'assistant' && (
         <View style={styles.speakerButton}>
-          <TouchableOpacity onPress={() => handleSpeech(item.text)} style={styles.speakerButtonStyle}>
-            <Text style={styles.speakerButtonText}>🔊</Text>
-          </TouchableOpacity>
+          <Button title="🔊" onPress={() => handleSpeech(item.text)} color="#fff" />
         </View>
       )}
     </View>
   );
 
   return (
-    <SafeAreaView style={{ flex: 5 }}>
-      <View style={styles.container}>
-        <Text style={styles.header}>Asistente Virtual</Text>
+    <View style={styles.container}>
+      <Text style={styles.header}>
+        <Text style={styles.holaStyle}>¡Hola! </Text>
+        SigmaGym Bot aquí. ¿En qué te ayudo hoy?
+      </Text>
 
-        <FlatList
-          ref={flatListRef}
-          data={chat}
-          keyExtractor={(item) => item.id}
-          renderItem={renderChatItem}
-          style={styles.chatContainer}
+      <FlatList
+        ref={flatListRef}
+        data={chat}
+        keyExtractor={(item) => item.id}
+        renderItem={renderChatItem}
+        style={styles.chatContainer}
+      />
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          placeholder="Escribe tu mensaje..."
+          value={userInput}
+          onChangeText={setUserInput}
         />
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.textInput}
-            placeholder="Escribe tu mensaje..."
-            value={userInput}
-            onChangeText={setUserInput}
-          />
-          <TouchableOpacity onPress={handleSendMessage} style={styles.sendButton}>
-            <Text style={styles.sendButtonText}>Enviar</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity style={styles.sendButton} onPress={handleSendMessage}>
+          <Text style={styles.sendButtonText}>Enviar</Text>
+        </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
-// Estilos
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#ffffff',
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 16,
+  },
+  holaStyle: {
+    fontSize: 28, // Tamaño más grande
+    fontWeight: 'bold',
+    color: '#09726F', 
+    textShadowColor: 'rgba(0, 0, 0, 0.2)', // Sombra ligera
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
   },
   chatContainer: {
     flex: 1,
@@ -159,8 +138,16 @@ const styles = StyleSheet.create({
     borderTopColor: '#ccc',
     paddingTop: 8,
   },
-  goBackButton: {
-    marginTop: 10,
+  sendButton: {
+    backgroundColor: '#09726F', // Verde
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+  },
+  sendButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   chatItem: {
     marginBottom: 10,
@@ -171,7 +158,7 @@ const styles = StyleSheet.create({
   },
   userChatItem: {
     alignSelf: 'flex-end',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#09726F',
   },
   modelChatItem: {
     alignSelf: 'flex-start',
@@ -181,31 +168,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
   },
-  
-// Estilos para los botones personalizados
-sendButton: {
-   backgroundColor:'#81d8d0', // Color de fondo del botón enviar
-   paddingVertical:10,
-   paddingHorizontal :20,
-   borderRadius :5,
-},
-sendButtonText:{
-   color:'#FFFFFF', // Color del texto del botón enviar
-   fontWeight:'bold',
-},
-backButtonText:{
-   color:'#FFFFFF', // Color del texto del botón volver
-   fontWeight:'bold',
-},
-speakerButtonStyle:{
-   backgroundColor:'#007AFF', // Color de fondo del botón de voz
-   paddingVertical :5,
-   paddingHorizontal :10,
-   borderRadius :5,
-},
-speakerButtonText:{
-   color:'#FFFFFF', // Color del texto del botón de voz
-},
+  speakerButton: {
+    position: 'absolute',
+    bottom: 5,
+    right: 5,
+  },
+  button: {
+    color: '#09726F',
+  },
 });
 
 export default ChatAssistantScreen;

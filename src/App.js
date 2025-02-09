@@ -7,8 +7,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import SignIn from './screens/SignIn'; 
 import RegistroScreen from './screens/RegistroScreen';
 import AppNavigator from './navigation/AppNavigator';
-import Perfil from './screens/Perfil';
+import HomeScreen from './screens/HomeScreen';
 import 'react-native-gesture-handler';
+
 
 
 const Stack = createStackNavigator();
@@ -18,7 +19,8 @@ export default function App() {
     <NavigationContainer>
       <StatusBar style="auto" />
 
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="HomeScreen">
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="SignIn" component={SignIn} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
         

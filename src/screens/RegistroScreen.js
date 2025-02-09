@@ -40,7 +40,7 @@ const RegistroScreen = ({ navigation }) => {
       // Crear un nuevo usuario con email y contraseña
       await createUserWithEmailAndPassword(auth, email, password);
       Alert.alert('Registro Exitoso', `Bienvenido/a ${name} ${lastName}!`);
-      navigation.navigate('Perfil'); // Cambia 'Ejercicios' por el nombre correcto de tu pantalla de ejercicios
+      navigation.navigate('Perfil'); 
     } catch (error) {
       console.error(error);
       Alert.alert('Error', error.message); // Muestra un mensaje de error si falla el registro
@@ -138,7 +138,7 @@ const RegistroScreen = ({ navigation }) => {
           mode="contained" 
           onPress={handleRegistro} 
           disabled={!acceptedTerms} 
-          style={{ marginTop: 20, backgroundColor: '#2196F3' }} // Color celeste para el botón
+          style={{ marginTop: 20, backgroundColor: '#09726F' }} // Color celeste para el botón
           labelStyle={{ color: '#FFFFFF' }} // Texto en blanco
         >
           Registrar

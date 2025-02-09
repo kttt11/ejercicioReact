@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { View, Image, Alert } from 'react-native';
 import { TextInput, Button, Checkbox, Text, Appbar } from 'react-native-paper';
-import { auth } from '../../credenciales'; // Asegúrate de que la ruta sea correcta
+import { auth } from '../../credenciales'; // Ahora importas desde firebaseConfig.js
 import { signInWithEmailAndPassword } from 'firebase/auth'; // Importa correctamente
 
-const logo = require('../../assets/logo.png'); // Importa el logo
+const logo = require('../../assets/LogoHomeV2.png'); // Importa el logo
 
 const SignIn = ({ navigation }) => {
   const [email, setEmail] = React.useState('');
@@ -57,12 +57,12 @@ const SignIn = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, justifyContent: 'center', padding: 16, backgroundColor: '#FFFFFF' }}>
-      <Appbar style={{ backgroundColor: 'transparent', elevation: 0 }}>
-        <Appbar.Content title="GymBro" titleStyle={{ textAlign: 'center', flexGrow: 1, fontWeight: 'bold' }} />
-      </Appbar>
+      {/*<Appbar style={{ backgroundColor: 'transparent', elevation: 0 }}>
+        <Appbar.Content title="SIGMAGYM" titleStyle={{ textAlign: 'center', flexGrow: 1, fontWeight: 'bold' }} />
+      </Appbar> */}
 
       {/* Logo */}
-      <Image source={logo} style={{ width: 100, height: 100, alignSelf: 'center', marginBottom: 20 }} resizeMode="contain" />
+      <Image source={logo} style={{ width: 400, height: 250, alignSelf: 'center' }} resizeMode="contain" />
 
       <TextInput
         label="Correo Electrónico"
@@ -110,7 +110,7 @@ const SignIn = ({ navigation }) => {
       <Button
         mode="contained"
         onPress={handleLogin} // Llama a handleLogin en lugar de navegar directamente
-        style={{ marginBottom: 16, backgroundColor: '#2196F3' }} // Color celeste
+        style={{ marginBottom: 16, backgroundColor: '#09726F' }} // Color celeste
       >
         Ingresar
       </Button>
@@ -151,4 +151,3 @@ const SignIn = ({ navigation }) => {
 };
 
 export default SignIn;
-

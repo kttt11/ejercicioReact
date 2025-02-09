@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet } from 'react-na
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 export default function BottonBar() {
@@ -12,7 +13,7 @@ export default function BottonBar() {
             <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>
-          <Ionicons name="body-outline" size={24} color="black" />
+          <AntDesign name="user" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.icon}>
           <MaterialCommunityIcons name="arm-flex-outline" size={24} color="black" />

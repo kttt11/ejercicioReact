@@ -1,7 +1,8 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity} from 'react-native';
+import { View, Text, TextInput, Button, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
 import { speak, isSpeakingAsync, stop } from 'expo-speech';
 import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
 
 const ChatAssistantScreen = () => {
   const [chat, setChat] = useState([]);
@@ -11,7 +12,23 @@ const ChatAssistantScreen = () => {
   const flatListRef = useRef(null);
   const navigation = useNavigation();
 
-  const handleSendMessage = () => {
+  // Función para obtener respuesta del chatbot
+  const responsechatbot = async (messageQ) => {
+    try {
+      const response = await axios.post("http://192.168.0.104:8000/chatbot", {
+        message: messageQ,
+      });
+
+      // Limpia el texto eliminando los asteriscos
+      const cleanResponse = response.data.response.replace(/\*{2}/g, '');
+      return cleanResponse; // Retorna la respuesta sin asteriscos
+    } catch (error) {
+      console.error("Error en el Chat:", error.response?.data || error.message);
+      return "Error al obtener respuesta"; // Devuelve un mensaje de error
+    }
+  };
+
+  const handleSendMessage = async () => {
     if (userInput.trim() === '') return;
 
     const newUserMessage = {
@@ -21,21 +38,22 @@ const ChatAssistantScreen = () => {
     };
 
     const updatedChat = [...chat, newUserMessage];
-
-    // Simulación de respuesta automática
-    const botReply = {
-      id: `${updatedChat.length}`,
-      role: 'assistant',
-      text: 'Este es un ejemplo de respuesta automática.',
-    };
-
-    const finalChat = [...updatedChat, botReply];
-    setChat(finalChat);
+    setChat(updatedChat);
     setUserInput('');
-    setTimeout(
-      () => flatListRef.current?.scrollToEnd({ animated: true }),
-      100
-    );
+
+    try {
+      const botResponse = await responsechatbot(userInput);
+      const botReply = {
+        id: `${updatedChat.length}`,
+        role: 'assistant',
+        text: botResponse,
+      };
+      setChat([...updatedChat, botReply]);
+    } catch (error) {
+      console.error("Error en el chatbot:", error);
+    }
+
+    setTimeout(() => flatListRef.current?.scrollToEnd({ animated: true }), 100);
   };
 
   const handleSpeech = async (text) => {
@@ -179,3 +197,4 @@ const styles = StyleSheet.create({
 });
 
 export default ChatAssistantScreen;
+

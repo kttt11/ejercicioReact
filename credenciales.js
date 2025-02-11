@@ -1,27 +1,19 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth'; 
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+// firebaseConfig.js
+import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID, MEASUREMENT_ID } from '@env';
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBsMXzZRrm21b6k6FPEMjLK1_ULDF3RWdc",
-  authDomain: "gymnasio-719fa.firebaseapp.com",
-  projectId: "gymnasio-719fa",
-  storageBucket: "gymnasio-719fa.firebasestorage.app",
-  messagingSenderId: "103652861670",
-  appId: "1:103652861670:web:744b8ba6559e7a3fda7d27",
-  measurementId: "G-TMB5GL5EXM"
+  apiKey: API_KEY,
+  authDomain: AUTH_DOMAIN,
+  projectId: PROJECT_ID,
+  storageBucket: STORAGE_BUCKET,
+  messagingSenderId: MESSAGING_SENDER_ID,
+  appId: APP_ID,
+  measurementId: MEASUREMENT_ID,
 };
 
-// Initialize Firebase
-const appFirebase = initializeApp(firebaseConfig);
-// Inicializa la autenticación
-const auth = getAuth(appFirebase);
-
-// Inicializa Google Analytics (opcional)
-const analytics = getAnalytics(appFirebase); // Solo si necesitas analítica
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 export { appFirebase, auth, analytics }; // Exporta lo que necesites

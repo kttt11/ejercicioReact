@@ -1,38 +1,59 @@
-// navigation/AppNavigator.js
+// TabNavigator.js
 import React from 'react';
-import { createStackNavigator, NavigationContainer } from '@react-navigation/stack';
-import SignIn from '../screens/SignIn';
-import HomeScreen from '../screens/HomeScreen';
-import RegistroScreen from '../screens/RegistroScreen';
-import EjerciciosScreen from '../screens/EjerciciosScreen';
-// import LoginScreen from '../screens/LoginScreen';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
 import BodyScreen from '../screens/BodyScreen';
-import PerfilUser from '../screens/PerfilUser ';
-import InfoPersonalScreen from '../screens/InfoPersonalScreen';
-import EditUserScreen from '../screens/EditUserScreen';
-import TerminosCondiciones from '../screens/TerminosCondiciones';
+import EjerciciosScreen from '../screens/EjerciciosScreen';
+import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Perfil from '../screens/Perfil';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-const AppNavigator = () => {
+function AppNavigator() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="PerfilUser">
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Registro" component={RegistroScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Ejercicios" component={EjerciciosScreen} />
-        <Stack.Screen name="BodyScreen" component={BodyScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="ChatAssistantScreen" component={ChatAssistantScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="PerfilUser" component={PerfilUser } options={{ headerShown: false }} />
-        <Stack.Screen name="InfoPersonalScreen" component={InfoPersonalScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="EditUserScreen" component={EditUserScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="TerminosCondiciones" component={TerminosCondiciones} options={{ headerShown: false }} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Tab.Navigator
+      initialRouteName="Perfil"
+      screenOptions={{
+        tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
+        tabBarActiveTintColor: 'black', // Color del texto activo (negro)
+        tabBarInactiveTintColor: 'rgb(80, 79, 79) ', // Color del texto inactivo (gris)
+        tabBarActiveBackgroundColor: '#09726F', // Color de fondo activo (celeste)
+
+      }}
+    >
+
+
+      <Tab.Screen
+        name="Perfil"
+        component={Perfil}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="user" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Ejercicios"
+        component={EjerciciosScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="arm-flex-outline" size={24} color="black" />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Chat"
+        component={ChatAssistantScreen}
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+          ),
+        }}
+      />
+    </Tab.Navigator>
   );
-};
+}
 
 export default AppNavigator;

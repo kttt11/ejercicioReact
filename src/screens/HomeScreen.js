@@ -1,112 +1,78 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
-import { Appbar } from 'react-native-paper';
+import * as React from 'react';
+import { View, Image } from 'react-native';
+import { Button, Text, Appbar } from 'react-native-paper';
 
-const PerfilUser = ({ navigation }) => {
+const logoHome = require('../../assets/LogoHomeV2.png');
+
+const HomeScreen = ({navigation}) => {
   return (
-    <View style={styles.container}>
-      {/* Barra de navegación */}
-      <Appbar.Header style={styles.appbar}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Perfil" style={styles.appbarTitle} />
-      </Appbar.Header>
-
-      {/* Sección de imagen de perfil */}
-      <View style={styles.profileSection}>
-        <Image
-          source={{ uri: 'https://w7.pngwing.com/pngs/741/68/png-transparent-user-computer-icons-user-miscellaneous-cdr-rectangle-thumbnail.png' }} // Imagen de ejemplo
-          style={styles.profileImage}
-        />
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Elegir imagen</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Eliminar</Text>
-          </TouchableOpacity>
-        </View>
+    <View style={{ flex: 1, padding: 10, backgroundColor: '#FFFFFF', justifyContent: 'space-between' }}>
+      {/* Barra de App (opcional) */}
+      <View>
+        <Appbar style={{ backgroundColor: 'transparent', elevation: 1 }}>
+          <Appbar.Content title="" />
+        </Appbar>
       </View>
 
-      {/* Opciones de perfil */}
-      <View style={styles.options}>
-        <TouchableOpacity style={styles.option}>
-          <Icon name="person-outline" size={24} color="#000" />
-          <Text style={styles.optionText}>Editar perfil</Text>
-        </TouchableOpacity>
+      {/* Contenedor del Texto */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+        <Text
+          style={{
+            fontSize: 42,
+            fontWeight: 'bold',
+            textAlign: 'center',
+            textTransform: 'uppercase',
+            fontVariant: ['small-caps'],
+            lineHeight: 40,
+            marginBottom: 25,
+            color: '#09726F',
+            letterSpacing: 2,
+            
+          }}
+        >
+          ¡Bienvenido!
+        </Text>
+      </View>
+      {/* Contenedor de la Imagen */}
+      <View style={{ flex: 2, alignItems: 'center' }}>
+        <Image
+          source={logoHome}
+          style={{ width: 600, height: 400, marginBottom: 1 }}
+          resizeMode="contain"
+        />
+      </View>
+      {/* Contenedor del Texto */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>
+        <Text
+          style={{
+            fontSize: 17,
+            fontWeight: '500',
+            textAlign: 'center',
+            textTransform: 'none',
+            lineHeight: 20,
+            marginBottom: 70,
+            fontStyle: 'italic'
 
-        <TouchableOpacity style={styles.option}>
-          <Icon name="barbell-outline" size={24} color="#000" />
-          <Text style={styles.optionText}>Avances</Text>
-        </TouchableOpacity>
 
-        <TouchableOpacity style={styles.option}>
-          <Icon name="help-circle-outline" size={24} color="#000" />
-          <Text style={styles.optionText}>Términos y Condiciones</Text>
-        </TouchableOpacity>
+          }}
+        >
+          Entrena con confianza, cuida tu cuerpo, y alcanza tu mejor versión.
+        </Text>
+      </View>
 
-        <TouchableOpacity style={styles.option}>
-          <Icon name="log-out-outline" size={24} color="#000" />
-          <Text style={styles.optionText}>Cerrar sesión</Text>
-        </TouchableOpacity>
+      {/* Contenedor del Botón */}
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Button
+          mode="contained"
+          onPress={() => navigation.navigate('SignIn')}
+          style={{ backgroundColor: '#09726F', paddingVertical: 6, width: '60%', marginBottom: 70 }}
+          labelStyle={{ fontSize: 14, fontWeight: 'thin', fontFamily: 'sans-serif-medium' }}
+        >
+          ¡Empezar Ahora!
+        </Button>
       </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 20,
-  },
-  appbar: {
-    backgroundColor: 'white',
-    elevation: 1,
-  },
-  appbarTitle: {
-    textAlign: 'center',
-  },
-  profileSection: {
-    alignItems: 'center',
-    marginVertical: 30,
-  },
-  profileImage: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
-    backgroundColor: '#ccc',
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    marginTop: 10,
-  },
-  button: {
-    marginHorizontal: 5,
-    padding: 8,
-    backgroundColor: '#f0f0f0',
-    borderRadius: 8,
-  },
-  buttonText: {
-    fontSize: 14,
-    color: '#000',
-  },
-  options: {
-    marginTop: 10,
-    paddingHorizontal: 20,
-  },
-  option: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  optionText: {
-    marginLeft: 10,
-    fontSize: 18,
-    color: '#000',
-  },
-});
-
-export default PerfilUser;
+export default HomeScreen;

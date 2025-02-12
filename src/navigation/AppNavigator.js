@@ -1,4 +1,3 @@
-// TabNavigator.js
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
@@ -6,8 +5,6 @@ import EjerciciosScreen from '../screens/EjerciciosScreen';
 import BodyScreen from '../screens/BodyScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-
-
 
 const Tab = createBottomTabNavigator();
 
@@ -17,10 +14,14 @@ function AppNavigator() {
       initialRouteName="Cuerpo"
       screenOptions={{
         tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
-        tabBarActiveTintColor: 'black', // Color del texto activo (negro)
-        tabBarInactiveTintColor: 'rgb(80, 79, 79) ', // Color del texto inactivo (gris)
-        tabBarActiveBackgroundColor: '#09726F', // Color de fondo activo (celeste)
-
+        tabBarActiveTintColor: '#09726F', // Color del ícono activo (verde)
+        tabBarInactiveTintColor: 'rgb(80, 79, 79)', // Color del ícono inactivo (gris)
+        tabBarActiveBackgroundColor: '#FFFFFF', // Fondo blanco cuando activo
+        tabBarIconStyle: { // Mantener estilo de los íconos sin bordes
+          borderWidth: 0,  // Sin borde
+          borderColor: 'transparent', // Sin color de borde
+          borderRadius: 0, // Sin borde redondeado
+        },
       }}
     >
       <Tab.Screen
@@ -28,7 +29,7 @@ function AppNavigator() {
         component={BodyScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="body-outline" size={24} color="black" />
+            <Ionicons name="body-outline" size={24} color={color} />
           ),
         }}
       />
@@ -37,16 +38,16 @@ function AppNavigator() {
         component={EjerciciosScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="arm-flex-outline" size={24} color="black" />
+            <MaterialCommunityIcons name="arm-flex-outline" size={24} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Chat"
+        name="Chatbot"
         component={ChatAssistantScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+            <Ionicons name="chatbox-ellipses-outline" size={24} color={color} />
           ),
         }}
       />

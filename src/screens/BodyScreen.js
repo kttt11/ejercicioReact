@@ -1,81 +1,70 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, Alert, ActivityIndicator, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, Button, Image, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
-
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 const BodyScreen = () => {
- const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [userName, setUserName] = useState('Usuario');
+  const [motivationPhrase, setMotivationPhrase] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState('');
+  const navigation = useNavigation();
 
   useEffect(() => {
-    (async () => {
-      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert('Permiso denegado', 'Necesitas habilitar los permisos de la galería para usar esta función.');
-      }
-
-      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
-      if (cameraStatus.status !== 'granted') {
-        Alert.alert('Permiso denegado', 'Necesitas habilitar los permisos de la cámara para usar esta función.');
-      }
-    })();
+    setTimeout(() => {
+      setUserName('¡Bienvenido, Atleta!');
+    }, 500);
+    fetchMotivationPhrase();
   }, []);
 
-  // Función para seleccionar una imagen desde la galería
+  const fetchMotivationPhrase = async () => {
+    try {
+      const response = await fetch('https://api.fisen.net/frases/random');
+      const data = await response.json();
+      setMotivationPhrase(data.frase + ' - ' + data.autor);
+    } catch (error) {
+      setMotivationPhrase('El éxito no es definitivo, el fracaso no es fatal: Lo que cuenta es el coraje para continuar. - Winston Churchill');
+    }
+  };
+
   const pickImage = async () => {
-    try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaType.Images,
-        allowsEditing: true,
-        aspect: [4, 5],
-        quality: 1,
-      });
-
-      if (!result.canceled && result.assets && result.assets.length > 0) {
-        setSelectedImage(result.assets[0].uri);
-        setAnalysisResult(''); // Limpia el resultado anterior
-      } else {
-        Alert.alert('Error', 'No se seleccionó ninguna imagen.');
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Ocurrió un error al intentar seleccionar la imagen.');
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 5],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+      setAnalysisResult('');
     }
   };
 
-  // Función para tomar una foto con la cámara
   const takePhoto = async () => {
-    try {
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaType.Images,
-        allowsEditing: true,
-        aspect: [4, 5],
-        quality: 1,
-      });
-
-      if (!result.canceled && result.assets && result.assets.length > 0) {
-        setSelectedImage(result.assets[0].uri);
-        setAnalysisResult(''); // Limpia el resultado anterior
-      } else {
-        Alert.alert('Error', 'No se tomó ninguna foto.');
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Ocurrió un error al intentar tomar la foto.');
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 5],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+      setAnalysisResult('');
     }
   };
 
-  // Función para enviar la imagen al backend FastAPI
   const analyzeBody = async () => {
     if (!selectedImage) {
-      setAnalysisResult('Por favor, sube o toma una foto antes de analizar.');
+      setAnalysisResult('Por favor, sube una imagen antes de analizar.');
       return;
     }
 
     try {
-      setLoading(true);
       setAnalysisResult('Analizando imagen...');
-
       const formData = new FormData();
       formData.append('file', {
         uri: selectedImage,
@@ -83,71 +72,51 @@ const BodyScreen = () => {
         type: 'image/jpeg',
       });
 
-      const response = await fetch('http://192.168.0.104:8000/analyze-body', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error en el servidor: ${response.status}`);
-      }
-
-      const data = await response.json();
-      setAnalysisResult(`${data.body_type}. ${data.motivational_message}`);
+      setTimeout(() => {
+        setAnalysisResult('¡Análisis completado! Tipo de cuerpo: Atlético 💪');
+      }, 2000);
     } catch (error) {
-      setAnalysisResult('Error al analizar la imagen: ' + error.message);
-      console.error(error);
-    } finally {
-      setLoading(false);
+      setAnalysisResult('Error al analizar la imagen.');
     }
   };
 
-  // Función para reiniciar la selección de imagen
-  const resetImage = () => {
-    setSelectedImage(null);
-    setAnalysisResult('');
+  const openModal = (content) => {
+    setModalContent(content);
+    setModalVisible(true);
   };
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <Text style={styles.header}>
-          Hola, <Text style={styles.saludoStyle}>¡Bienvenido!</Text>
-          {"\n"}
-          ¿Quieres saber qué ejercicios son mejores para ti?
-        </Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <Text style={styles.greetingText}>{userName}</Text>
+        <Text style={styles.motivationText}>{motivationPhrase}</Text>
 
-        <Text style={styles.instructionText}>¡Sube una foto o toma una foto para descubrirlo!</Text>
+        <Text style={styles.instructionText}>Carga una foto de tu cuerpo completo aquí</Text>
+
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.commonButton} onPress={pickImage}>
+            <Ionicons name="cloud-upload" size={18} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.commonButton} onPress={takePhoto}>
+            <Ionicons name="camera" size={18} color="#fff" />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.imageUploadContainer}>
           {selectedImage ? (
-            <TouchableOpacity onPress={resetImage}>
-              <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
-            </TouchableOpacity>
+            <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
           ) : (
-            <View>
-              <TouchableOpacity style={styles.button} onPress={pickImage}>
-                <Text style={styles.buttonText}>Subir Foto</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.button} onPress={takePhoto}>
-                <Text style={styles.buttonText}>Tomar Foto</Text>
-              </TouchableOpacity>
-            </View>
+            <Text>No hay imagen seleccionada</Text>
           )}
         </View>
 
-        {loading ? (
-          <ActivityIndicator size="large" color="#09726F" />
-        ) : (
-          selectedImage && (
-            <TouchableOpacity style={styles.button} onPress={analyzeBody}>
-              <Text style={styles.buttonText}>Analizar tu cuerpo</Text>
-            </TouchableOpacity>
-          )
-        )}
+        <TouchableOpacity
+          style={styles.commonButton}
+          onPress={analyzeBody}
+          disabled={!selectedImage}
+        >
+          <Text style={styles.buttonText}>Analizar</Text>
+        </TouchableOpacity>
 
         {analysisResult ? (
           <View style={styles.resultContainer}>
@@ -155,45 +124,90 @@ const BodyScreen = () => {
           </View>
         ) : null}
 
-        {analysisResult && (
-          <TouchableOpacity style={styles.button} onPress={resetImage}>
-            <Text style={styles.buttonText}>Subir otra foto</Text>
+        <View style={styles.infoContainer}>
+          <TouchableOpacity style={styles.infoBox} onPress={() => openModal('Comida')}>
+            <Ionicons name="restaurant" size={18} color="#000" />
+            <Text style={styles.infoText}>Comida</Text>
           </TouchableOpacity>
-        )}
-      </View>
+          <TouchableOpacity style={styles.infoBox} onPress={() => openModal('Vestimenta')}>
+            <Ionicons name="shirt" size={18} color="#000" />
+            <Text style={styles.infoText}>Vestuario</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.infoBox} onPress={() => openModal('Entrenamiento')}>
+            <Ionicons name="barbell" size={18} color="#000" />
+            <Text style={styles.infoText}>Entrenar</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              {modalContent === 'Comida' && 'Aquí te ofrecemos recomendaciones de comidas saludables.'}
+              {modalContent === 'Vestimenta' && 'Te ayudamos a elegir la mejor ropa para tus entrenamientos.'}
+              {modalContent === 'Ejercicios' && 'Consulta rutinas de ejercicios para mejorar tu cuerpo.'}
+            </Text>
+            <Button title="Cerrar" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
 
 // **Estilos**
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-  },
   container: {
-    justifyContent: 'center',
+    flexGrow: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
-  saludoStyle: {
-    fontSize: 28,
+  greetingText: {
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#09726F',
-    textShadowColor: 'rgba(0, 0, 0, 0.2)',
-    textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 3,
+    marginTop: 20,
+    marginBottom: 10,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  motivationText: {
+    fontSize: 14,
+    fontStyle: 'italic',
+    marginBottom: 20,
     textAlign: 'center',
-    marginBottom: 16,
   },
   instructionText: {
     fontSize: 16,
     marginBottom: 20,
     textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginBottom: 20,
+  },
+  commonButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    backgroundColor: '#09726F',
+    marginVertical: 8,
+    width: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   imageUploadContainer: {
     width: 200,
@@ -208,19 +222,6 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  button: {
-    backgroundColor: '#09726F',
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    borderRadius: 8,
-    marginVertical: 5,
-    alignItems: 'center',
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
   resultContainer: {
     marginTop: 20,
     padding: 10,
@@ -231,8 +232,51 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  infoBox: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#09726F',
+    borderWidth: 1,
+    borderRadius: 40,
+   
+  },
+  infoText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    height: 200,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

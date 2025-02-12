@@ -88,7 +88,8 @@ const ChatAssistantScreen = () => {
     <View style={styles.container}>
       <Text style={styles.header}>
         <Text style={styles.holaStyle}>¡Hola! </Text>
-        SigmaGym Bot aquí. ¿En qué te ayudo hoy?
+        SigmaGym Bot aquí.
+        {"\n"}¿En qué te ayudo hoy?
       </Text>
 
       <FlatList
@@ -122,13 +123,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
   },
   header: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 16,
   },
   holaStyle: {
-    fontSize: 28, // Tamaño más grande
+    fontSize: 18, // Tamaño más grande
     fontWeight: 'bold',
     color: '#09726F', 
     textShadowColor: 'rgba(0, 0, 0, 0.2)', // Sombra ligera

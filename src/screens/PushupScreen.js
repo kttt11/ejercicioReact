@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from "react-native";
+import { Image } from 'expo-image'; // Importar desde expo-image
 
 const PushupScreen = ({ route, navigation }) => {
   const { exercise } = route.params || { exercise: "pushup" };
@@ -8,14 +9,14 @@ const PushupScreen = ({ route, navigation }) => {
     pushup: {
       title: "Push Up",
       description:
-        "Recóstate boca abajo y empuja con las manos para elevar el cuerpo hasta estirar los brazos.",
-      image: "https://static.wixstatic.com/media/2edbed_8c01db116a174865aa48bd3a1b58e191~mv2.gif",
+        "Recuestate boca abajo y empuja con las manos para elevar el cuerpo hasta estirar los brazos.",
+      image: require("../../assets/Pushup.gif"), // Usando require para el gif local
     },
     pressmilitar: {
       title: "Press Militar",
       description:
         "Ejercicio para hombros, levantando una barra o mancuernas por encima de la cabeza.",
-      image: "https://fitcron.com/wp-content/uploads/2021/04/02871301-Dumbbell-Arnold-Press-II_Shoulders_720.gif",
+      image: require("../../assets/Prees-Militar.gif"), // Corregido (image con minúscula)
     },
   };
 
@@ -34,8 +35,8 @@ const PushupScreen = ({ route, navigation }) => {
       {/* Título dinámico */}
       <Text style={styles.title}>{title}</Text>
 
-      {/* Imagen del ejercicio */}
-      <Image source={{ uri: image }} style={styles.image} />
+      {/* Imagen del ejercicio usando expo-image */}
+      <Image source={image} style={styles.image} />
 
       {/* Descripción del ejercicio */}
       <Text style={styles.description}>{description}</Text>
@@ -52,36 +53,30 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: "center",
-    backgroundColor: "#F0F0F5",
+    backgroundColor: "#fff", // Fondo blanco
     paddingTop: 0,
     paddingBottom: 20,
   },
   header: {
     width: "100%",
     paddingVertical: 15,
-    backgroundColor: "#333",
+    backgroundColor: "#09726F", // Verde oscuro
     alignItems: "center",
   },
   headerTitle: {
     fontSize: 24,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#fff", // Texto blanco en el encabezado
   },
   spacing: {
     height: 20,
-  },
-  mainIcon: {
-    width: 120,
-    height: 120,
-    marginBottom: 10,
-    borderRadius: 12,
   },
   title: {
     fontSize: 26,
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 20,
-    color: "#333",
+    color: "#c88f00", // Color dorado suave para el título
   },
   image: {
     width: 220,
@@ -92,12 +87,12 @@ const styles = StyleSheet.create({
   description: {
     textAlign: "center",
     fontSize: 18,
-    color: "#555",
+    color: "#555", // Gris oscuro para la descripción
     marginBottom: 25,
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: "#171616",
+    backgroundColor: "#09726F", // Botón verde oscuro
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,
@@ -107,7 +102,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   buttonText: {
-    color: "#FFF",
+    color: "#FFF", // Texto blanco en el botón
     fontSize: 20,
     fontWeight: "bold",
   },

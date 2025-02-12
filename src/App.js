@@ -9,6 +9,9 @@ import RegistroScreen from './screens/RegistroScreen';
 import AppNavigator from './navigation/AppNavigator';
 import HomeScreen from './screens/HomeScreen';
 import 'react-native-gesture-handler';
+import EntrenarScreen from './screens/EntrenarScreen';
+import ContadorScreen from './screens/ContadorScreen';
+import PushupScreen from './screens/PushupScreen';
 
 
 
@@ -23,6 +26,9 @@ export default function App() {
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
+        <Stack.Screen name="Entrenar" component={EntrenarScreen} />
+        <Stack.Screen name="Pushup" component={PushupScreen} />
+        <Stack.Screen name="Contador" component={ContadorScreen} />
         
         {/* Aquí incluimos el TabNavigator en lugar de Home */}
         <Stack.Screen name="Body" component={AppNavigator} options={{ headerShown: false }} />

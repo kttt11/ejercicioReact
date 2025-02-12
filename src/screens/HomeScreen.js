@@ -40,6 +40,10 @@ const HomeScreen = ({navigation}) => {
           style={{ width: 600, height: 400, marginBottom: 1 }}
           resizeMode="contain"
         />
+        <Button 
+          title="Entrenar"
+          onPress={() => navigation.navigate('EntrenarScreen')} // Nombre correcto de la pantalla
+        />
       </View>
       {/* Contenedor del Texto */}
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: 1 }}>

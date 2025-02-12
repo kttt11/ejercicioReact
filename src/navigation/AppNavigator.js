@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
-import EjerciciosScreen from '../screens/EjerciciosScreen';
+import EntrenarScreen from '../screens/EntrenarScreen';
 import BodyScreen from '../screens/BodyScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
@@ -35,8 +35,8 @@ function AppNavigator() {
         }}
       />
       <Tab.Screen
-        name="Ejercicios"
-        component={EjerciciosScreen}
+        name="Entrenar"
+        component={EntrenarScreen}
         options={{
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons name="arm-flex-outline" size={24} color={color} />

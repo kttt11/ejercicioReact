@@ -1,12 +1,4 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import LoginScreen from '../screens/LoginScreen';
-import HomeScreen from '../screens/HomeScreen';
-import RegistroScreen from '../screens/RegistroScreenScreen';
-import EntrenarScreen from '../screens/EntrenarScreen';
-import PushupScreen from '../screens/PushupScreen';
-import ContadorScreen from '../screens/ContadorScreen';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
 import EjerciciosScreen from '../screens/EjerciciosScreen';

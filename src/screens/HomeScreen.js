@@ -64,7 +64,7 @@ const HomeScreen = ({navigation}) => {
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Button
           mode="contained"
-          onPress={() => navigation.navigate('SignIn')}
+          onPress={() => navigation.navigate('LoginScreen')}
           style={{ backgroundColor: '#09726F', paddingVertical: 6, width: '60%', marginBottom: 70 }}
           labelStyle={{ fontSize: 14, fontWeight: 'thin', fontFamily: 'sans-serif-medium' }}
         >

@@ -2,19 +2,19 @@
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
-import BodyScreen from '../screens/BodyScreen';
 import EjerciciosScreen from '../screens/EjerciciosScreen';
+import BodyScreen from '../screens/BodyScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Perfil from '../screens/Perfil';
-import AntDesign from '@expo/vector-icons/AntDesign';
+
+
 
 const Tab = createBottomTabNavigator();
 
 function AppNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Perfil"
+      initialRouteName="Cuerpo"
       screenOptions={{
         tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
         tabBarActiveTintColor: 'black', // Color del texto activo (negro)
@@ -23,14 +23,12 @@ function AppNavigator() {
 
       }}
     >
-
-
       <Tab.Screen
-        name="Perfil"
-        component={Perfil}
+        name="Cuerpo"
+        component={BodyScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <AntDesign name="user" size={24} color="black" />
+            <Ionicons name="body-outline" size={24} color="black" />
           ),
         }}
       />

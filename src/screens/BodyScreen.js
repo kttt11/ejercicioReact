@@ -78,12 +78,6 @@ const BodyScreen = () => {
             <Text style={styles.resultText}>{analysisResult}</Text>
           </View>
         ) : null}
-
-        {/* Botón para regresar a la pantalla de inicio */}
-        <Button
-          title="Regresar a Inicio"
-          onPress={() => navigation.navigate('Home')}
-        />
       </View>
     </SafeAreaView>
   );

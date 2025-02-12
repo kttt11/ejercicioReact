@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Alert, Text, StyleSheet, Image } from 'react-native';
 import { TextInput, Button, Checkbox, IconButton } from 'react-native-paper';
 import { launchImageLibrary } from 'react-native-image-picker';
-import appFirebase from '../../credenciales'; // Asegúrate de que la ruta sea correcta
+import appFirebase from '../../firebaseConfig'; // Asegúrate de que la ruta sea correcta
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'; // Importa las funciones necesarias
 
 const auth = getAuth(appFirebase); // Inicializa la autenticación
@@ -40,7 +40,7 @@ const RegistroScreen = ({ navigation }) => {
       // Crear un nuevo usuario con email y contraseña
       await createUserWithEmailAndPassword(auth, email, password);
       Alert.alert('Registro Exitoso', `Bienvenido/a ${name} ${lastName}!`);
-      navigation.navigate('Perfil'); 
+      navigation.navigate('Body'); 
     } catch (error) {
       console.error(error);
       Alert.alert('Error', error.message); // Muestra un mensaje de error si falla el registro

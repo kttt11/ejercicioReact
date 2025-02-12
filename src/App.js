@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import SignIn from './screens/SignIn'; 
+import LoginScreen from './screens/LoginScreen';
 import RegistroScreen from './screens/RegistroScreen';
 import AppNavigator from './navigation/AppNavigator';
 import HomeScreen from './screens/HomeScreen';
@@ -21,11 +21,11 @@ export default function App() {
 
       <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
         
         {/* Aquí incluimos el TabNavigator en lugar de Home */}
-        <Stack.Screen name="Perfil" component={AppNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Body" component={AppNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

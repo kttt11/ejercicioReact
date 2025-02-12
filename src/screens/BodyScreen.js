@@ -5,36 +5,77 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BodyScreen = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+ const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState('');
-  const navigation = useNavigation();
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Permiso denegado', 'Necesitas habilitar los permisos de la galería para usar esta función.');
+      }
+
+      const cameraStatus = await ImagePicker.requestCameraPermissionsAsync();
+      if (cameraStatus.status !== 'granted') {
+        Alert.alert('Permiso denegado', 'Necesitas habilitar los permisos de la cámara para usar esta función.');
+      }
+    })();
+  }, []);
 
   // Función para seleccionar una imagen desde la galería
   const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 5],
-      quality: 1,
-    });
+    try {
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaType.Images,
+        allowsEditing: true,
+        aspect: [4, 5],
+        quality: 1,
+      });
 
-    if (!result.canceled) {
-      setSelectedImage(result.assets[0].uri);
-      setAnalysisResult(''); // Limpiar resultado anterior
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setSelectedImage(result.assets[0].uri);
+        setAnalysisResult(''); // Limpia el resultado anterior
+      } else {
+        Alert.alert('Error', 'No se seleccionó ninguna imagen.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Ocurrió un error al intentar seleccionar la imagen.');
+    }
+  };
+
+  // Función para tomar una foto con la cámara
+  const takePhoto = async () => {
+    try {
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaType.Images,
+        allowsEditing: true,
+        aspect: [4, 5],
+        quality: 1,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        setSelectedImage(result.assets[0].uri);
+        setAnalysisResult(''); // Limpia el resultado anterior
+      } else {
+        Alert.alert('Error', 'No se tomó ninguna foto.');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Ocurrió un error al intentar tomar la foto.');
     }
   };
 
   // Función para enviar la imagen al backend FastAPI
   const analyzeBody = async () => {
     if (!selectedImage) {
-      setAnalysisResult('Por favor, sube una imagen antes de analizar.');
+      setAnalysisResult('Por favor, sube o toma una foto antes de analizar.');
       return;
     }
 
     try {
+      setLoading(true);
       setAnalysisResult('Analizando imagen...');
 
-      // Aquí deberías hacer una solicitud a tu backend FastAPI
       const formData = new FormData();
       formData.append('file', {
         uri: selectedImage,
@@ -42,42 +83,83 @@ const BodyScreen = () => {
         type: 'image/jpeg',
       });
 
-      // Simulación de espera (aquí iría la llamada real a FastAPI)
-      setTimeout(() => {
-        setAnalysisResult('¡Análisis completado! Tipo de cuerpo: Atlético 💪');
-      }, 2000);
+      const response = await fetch('http://192.168.0.104:8000/analyze-body', {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error en el servidor: ${response.status}`);
+      }
+
+      const data = await response.json();
+      setAnalysisResult(`${data.body_type}. ${data.motivational_message}`);
     } catch (error) {
-      setAnalysisResult('Error al analizar la imagen.');
+      setAnalysisResult('Error al analizar la imagen: ' + error.message);
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  // Función para reiniciar la selección de imagen
+  const resetImage = () => {
+    setSelectedImage(null);
+    setAnalysisResult('');
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Mensaje superior izquierdo */}
-        <Text style={styles.topText}>Veamos qué tipo de cuerpo tienes</Text>
+        <Text style={styles.header}>
+          Hola, <Text style={styles.saludoStyle}>¡Bienvenido!</Text>
+          {"\n"}
+          ¿Quieres saber qué ejercicios son mejores para ti?
+        </Text>
 
-        {/* Mensaje central */}
-        <Text style={styles.instructionText}>Sube una foto de tu cuerpo completo aquí</Text>
+        <Text style={styles.instructionText}>¡Sube una foto o toma una foto para descubrirlo!</Text>
 
-        {/* Área de carga de imagen */}
         <View style={styles.imageUploadContainer}>
           {selectedImage ? (
-            <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
+            <TouchableOpacity onPress={resetImage}>
+              <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
+            </TouchableOpacity>
           ) : (
-            <Button title="Subir Foto" onPress={pickImage} />
+            <View>
+              <TouchableOpacity style={styles.button} onPress={pickImage}>
+                <Text style={styles.buttonText}>Subir Foto</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={takePhoto}>
+                <Text style={styles.buttonText}>Tomar Foto</Text>
+              </TouchableOpacity>
+            </View>
           )}
         </View>
 
-        {/* Botón para analizar la imagen */}
-        <Button title="Analizar tu cuerpo" onPress={analyzeBody} />
+        {loading ? (
+          <ActivityIndicator size="large" color="#09726F" />
+        ) : (
+          selectedImage && (
+            <TouchableOpacity style={styles.button} onPress={analyzeBody}>
+              <Text style={styles.buttonText}>Analizar tu cuerpo</Text>
+            </TouchableOpacity>
+          )
+        )}
 
-        {/* Cuadro para mostrar el resultado */}
         {analysisResult ? (
           <View style={styles.resultContainer}>
             <Text style={styles.resultText}>{analysisResult}</Text>
           </View>
         ) : null}
+
+        {analysisResult && (
+          <TouchableOpacity style={styles.button} onPress={resetImage}>
+            <Text style={styles.buttonText}>Subir otra foto</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </SafeAreaView>
   );
@@ -85,19 +167,28 @@ const BodyScreen = () => {
 
 // **Estilos**
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
-    justifyContent: 'center', // Centra verticalmente
-    alignItems: 'center', // Centra horizontalmente
-    backgroundColor: '#f5f5f5',
-    paddingHorizontal: 20, // Añade espacio horizontal
+    backgroundColor: '#ffffff',
   },
-  topText: {
-    alignSelf: 'flex-start',
-    fontSize: 18,
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+  },
+  saludoStyle: {
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center', // Asegura que el texto esté alineado a la izquierda
+    color: '#09726F',
+    textShadowColor: 'rgba(0, 0, 0, 0.2)',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3,
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 16,
   },
   instructionText: {
     fontSize: 16,
@@ -116,6 +207,19 @@ const styles = StyleSheet.create({
   uploadedImage: {
     width: '100%',
     height: '100%',
+  },
+  button: {
+    backgroundColor: '#09726F',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+    marginVertical: 5,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   resultContainer: {
     marginTop: 20,

@@ -72,6 +72,7 @@ const EditPerfilScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Editar Perfil</Text>
       <TextInput
         label="Nombre"
         value={userData.name}
@@ -123,6 +124,13 @@ const EditPerfilScreen = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, padding: 20, backgroundColor: '#fff' },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#000',
+  },
   input: { marginBottom: 16 },
   button: { marginTop: 20, backgroundColor: '#09726F' },
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { Appbar } from 'react-native-paper';
 
 const PerfilUser = ({ navigation }) => {
   const handleLogout = () => {
@@ -17,11 +16,10 @@ const PerfilUser = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      {/* Barra de navegación */}
-      <Appbar.Header style={styles.appbar}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Perfil de Usuario" style={styles.appbarTitle} />
-      </Appbar.Header>
+      {/* Título centrado */}
+      <View style={styles.header}>
+        <Text style={styles.title}>Perfil de Usuario</Text>
+      </View>
 
       {/* Sección de imagen de perfil */}
       <View style={styles.profileSection}>
@@ -59,13 +57,6 @@ const PerfilUser = ({ navigation }) => {
             <Text style={styles.optionText}>Cerrar sesión</Text>
           </TouchableOpacity>
         </View>
-
-        {/* Botón de regresar */}
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.goBackButton} onPress={() => navigation.goBack()}>
-            <Text style={styles.goBackText}>Regresar</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
@@ -77,12 +68,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 20,
   },
-  appbar: {
-    backgroundColor: 'white',
-    elevation: 1,
+  header: {
+    alignItems: 'center',
+    marginBottom: 20,
   },
-  appbarTitle: {
+  title: {
+    fontSize: 24, // Tamaño del texto más grande
+    fontWeight: 'bold',
     textAlign: 'center',
+    color: '#000',
   },
   profileSection: {
     alignItems: 'center',
@@ -113,22 +107,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 18,
     color: '#000',
-  },
-  footer: {
-    alignItems: 'center',
-    paddingBottom: 90,
-  },
-  goBackButton: {
-    padding: 15,
-    backgroundColor: '#09726F',
-    borderRadius: 25,
-    width: '65%',
-    alignItems: 'center',
-  },
-  goBackText: {
-    fontSize: 20,
-    color: '#FFFFFF',
-    textAlign: 'center',
   },
 });
 

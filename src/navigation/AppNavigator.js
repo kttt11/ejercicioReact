@@ -7,7 +7,13 @@ import EjerciciosScreen from '../screens/EjerciciosScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Perfil from '../screens/Perfil';
-import AntDesign from '@expo/vector-icons/AntDesign';
+import AntDesign from '@expo/vector-icons/AntDesign'
+import EntrenarScreen from '../screens/EntrenarScreen';
+import PushupScreen from '../screens/PushupScreen';
+import PerfilUser from '../screens/PerfilUser';
+import RegistroAdicionalScreen from '../screens/RegistroAdicionalScreen';
+import EditPerfilScreen from '../screens/EditPerfilScreen';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -49,6 +55,15 @@ function AppNavigator() {
         options={{
           tabBarIcon: ({ color }) => (
             <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+          ),
+        }}
+      />
+            <Tab.Screen
+        name="Usuario"
+        component={PerfilUser} // Agregamos la nueva pantalla
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="person-circle-outline" size={24} color="black" /> // Ícono de usuario
           ),
         }}
       />

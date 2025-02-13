@@ -35,16 +35,25 @@ const PerfilUser = ({ navigation }) => {
       <View style={styles.optionsContainer}>
         {/* Opciones de perfil */}
         <View style={styles.options}>
-          <TouchableOpacity style={styles.option}>
+          {/* Botón Editar Perfil */}
+          <TouchableOpacity 
+            style={styles.option} 
+            onPress={() => navigation.navigate('EditPerfilScreen')}
+          >
             <Icon name="person-outline" size={30} color="#000" />
             <Text style={styles.optionText}>Editar perfil</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('TerminosCondiciones')}>
+          {/* Botón Términos y Condiciones */}
+          <TouchableOpacity 
+            style={styles.option} 
+            onPress={() => navigation.navigate('TerminosCondiciones')}
+          >
             <Icon name="help-circle-outline" size={24} color="#000" />
             <Text style={styles.optionText}>Términos y Condiciones</Text>
           </TouchableOpacity>
 
+          {/* Botón Cerrar Sesión */}
           <TouchableOpacity style={styles.option} onPress={handleLogout}>
             <Icon name="log-out-outline" size={24} color="#000" />
             <Text style={styles.optionText}>Cerrar sesión</Text>

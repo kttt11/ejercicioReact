@@ -1,19 +1,28 @@
-// firebaseConfig.js
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { API_KEY, AUTH_DOMAIN, PROJECT_ID, STORAGE_BUCKET, MESSAGING_SENDER_ID, APP_ID, MEASUREMENT_ID } from '@env';
+import { 
+  EXPO_PUBLIC_API_KEY, 
+  EXPO_PUBLIC_AUTH_DOMAIN, 
+  EXPO_PUBLIC_PROJECT_ID, 
+  EXPO_PUBLIC_STORAGE_BUCKET, 
+  EXPO_PUBLIC_MESSAGING_SENDER_ID, 
+  EXPO_PUBLIC_APP_ID, 
+  EXPO_PUBLIC_MEASUREMENT_ID 
+} from '@env';
 
+// Configuración de Firebase
 const firebaseConfig = {
-  apiKey: API_KEY,
-  authDomain: AUTH_DOMAIN,
-  projectId: PROJECT_ID,
-  storageBucket: STORAGE_BUCKET,
-  messagingSenderId: MESSAGING_SENDER_ID,
-  appId: APP_ID,
-  measurementId: MEASUREMENT_ID,
+  apiKey: EXPO_PUBLIC_API_KEY,
+  authDomain: EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: EXPO_PUBLIC_APP_ID,
+  measurementId: EXPO_PUBLIC_MEASUREMENT_ID,
 };
 
+// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export { appFirebase, auth, analytics }; // Exporta lo que necesites
+export { app, auth };

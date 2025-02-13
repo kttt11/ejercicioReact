@@ -142,7 +142,7 @@ const SignIn = ({ navigation }) => {
 
       <Text style={{ textAlign: 'center', marginTop: 16 }}>
         ¿No tienes una cuenta?{' '}
-        <Text onPress={() => navigation.navigate('Registro')} style={{ color: '#2196F3' }}>
+        <Text onPress={() => navigation.navigate('RegistroAdicional')} style={{ color: '#2196F3' }}>
           Regístrate aquí.
         </Text>
       </Text>

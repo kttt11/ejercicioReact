@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
-import { Appbar, Button } from "react-native-paper";
+import { Button } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 
 const TerminosCondiciones = () => {
@@ -8,12 +8,6 @@ const TerminosCondiciones = () => {
 
   return (
     <View style={styles.container}>
-      {/* Appbar Header */}
-      <Appbar.Header style={styles.appbar}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Términos y Condiciones" style={styles.appbarTitle} />
-      </Appbar.Header>
-      
       <ScrollView style={styles.content} contentContainerStyle={{ flexGrow: 1 }}>
         <Text style={styles.title}>Términos y Condiciones de Uso de SigmaGym</Text>
         <Text style={styles.sectionTitle}>1. Introducción</Text>
@@ -94,13 +88,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f9f9f9",
-  },
-  appbar: {
-    backgroundColor: "#fff",
-  },
-  appbarTitle: {
-    textAlign: "center",
-    color: "#000",
   },
   content: {
     flex: 1,

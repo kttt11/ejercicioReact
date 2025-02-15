@@ -5,17 +5,10 @@ import { Appbar } from "react-native-paper";
 const EntrenarScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      {/* Barra de navegación */}
-      <Appbar.Header style={styles.appbar}>
-        <Appbar.BackAction onPress={() => navigation.goBack()} />
-        <Appbar.Content title="Entrenamiento" style={styles.appbarTitle} />
-      </Appbar.Header>
-
       <ScrollView contentContainerStyle={styles.content}>
         {/* Imagen superior */}
         <View style={styles.iconContainer}>
             <Image source={require("../../assets/EntrenarIcono.png")} style={styles.iconImage} />
-
         </View>
 
         {/* Título principal */}
@@ -71,10 +64,10 @@ const EntrenarScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#fff",
-//   },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
   appbar: {
     backgroundColor: "white",
     elevation: 5,

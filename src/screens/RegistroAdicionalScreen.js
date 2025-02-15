@@ -3,7 +3,7 @@ import { View, Alert, Text, StyleSheet, Image, TouchableOpacity, ScrollView } fr
 import { TextInput, Button, Checkbox } from 'react-native-paper';
 import { launchImageLibrary } from 'react-native-image-picker';
 import DropDownPicker from 'react-native-dropdown-picker';
-import appFirebase from '../../credenciales';
+import appFirebase from '../../firebaseConfig';
 import { getAuth, createUserWithEmailAndPassword, fetchSignInMethodsForEmail } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 

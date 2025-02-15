@@ -1,15 +1,36 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Button, Image, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Ionicons } from '@expo/vector-icons';
 
 const BodyScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
   const [analysisResult, setAnalysisResult] = useState('');
+  const [userName, setUserName] = useState('Usuario');
+  const [motivationPhrase, setMotivationPhrase] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalContent, setModalContent] = useState('');
   const navigation = useNavigation();
 
-  // Función para seleccionar una imagen desde la galería
+  useEffect(() => {
+    setTimeout(() => {
+      setUserName('¡Bienvenido, Atleta!');
+    }, 500);
+    fetchMotivationPhrase();
+  }, []);
+
+  const fetchMotivationPhrase = async () => {
+    try {
+      const response = await fetch('https://api.fisen.net/frases/random');
+      const data = await response.json();
+      setMotivationPhrase(data.frase + ' - ' + data.autor);
+    } catch (error) {
+      setMotivationPhrase('El éxito no es definitivo, el fracaso no es fatal: Lo que cuenta es el coraje para continuar. - Winston Churchill');
+    }
+  };
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -17,14 +38,25 @@ const BodyScreen = () => {
       aspect: [4, 5],
       quality: 1,
     });
-
     if (!result.canceled) {
       setSelectedImage(result.assets[0].uri);
-      setAnalysisResult(''); // Limpiar resultado anterior
+      setAnalysisResult('');
     }
   };
 
-  // Función para enviar la imagen al backend FastAPI
+  const takePhoto = async () => {
+    let result = await ImagePicker.launchCameraAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 5],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setSelectedImage(result.assets[0].uri);
+      setAnalysisResult('');
+    }
+  };
+
   const analyzeBody = async () => {
     if (!selectedImage) {
       setAnalysisResult('Por favor, sube una imagen antes de analizar.');
@@ -33,8 +65,6 @@ const BodyScreen = () => {
 
     try {
       setAnalysisResult('Analizando imagen...');
-
-      // Aquí deberías hacer una solicitud a tu backend FastAPI
       const formData = new FormData();
       formData.append('file', {
         uri: selectedImage,
@@ -42,7 +72,6 @@ const BodyScreen = () => {
         type: 'image/jpeg',
       });
 
-      // Simulación de espera (aquí iría la llamada real a FastAPI)
       setTimeout(() => {
         setAnalysisResult('¡Análisis completado! Tipo de cuerpo: Atlético 💪');
       }, 2000);
@@ -51,40 +80,83 @@ const BodyScreen = () => {
     }
   };
 
+  const openModal = (content) => {
+    setModalContent(content);
+    setModalVisible(true);
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        {/* Mensaje superior izquierdo */}
-        <Text style={styles.topText}>Veamos qué tipo de cuerpo tienes</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#fff' }}>
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <Text style={styles.greetingText}>{userName}</Text>
+        <Text style={styles.motivationText}>{motivationPhrase}</Text>
 
-        {/* Mensaje central */}
-        <Text style={styles.instructionText}>Sube una foto de tu cuerpo completo aquí</Text>
+        <Text style={styles.instructionText}>Carga una foto de tu cuerpo completo aquí</Text>
 
-        {/* Área de carga de imagen */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.commonButton} onPress={pickImage}>
+            <Ionicons name="cloud-upload" size={18} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.commonButton} onPress={takePhoto}>
+            <Ionicons name="camera" size={18} color="#fff" />
+          </TouchableOpacity>
+        </View>
+
         <View style={styles.imageUploadContainer}>
           {selectedImage ? (
             <Image source={{ uri: selectedImage }} style={styles.uploadedImage} />
           ) : (
-            <Button title="Subir Foto" onPress={pickImage} />
+            <Text>No hay imagen seleccionada</Text>
           )}
         </View>
 
-        {/* Botón para analizar la imagen */}
-        <Button title="Analizar tu cuerpo" onPress={analyzeBody} />
+        <TouchableOpacity
+          style={styles.commonButton}
+          onPress={analyzeBody}
+          disabled={!selectedImage}
+        >
+          <Text style={styles.buttonText}>Analizar</Text>
+        </TouchableOpacity>
 
-        {/* Cuadro para mostrar el resultado */}
         {analysisResult ? (
           <View style={styles.resultContainer}>
             <Text style={styles.resultText}>{analysisResult}</Text>
           </View>
         ) : null}
 
-        {/* Botón para regresar a la pantalla de inicio */}
-        <Button
-          title="Regresar a Inicio"
-          onPress={() => navigation.navigate('Home')}
-        />
-      </View>
+        <View style={styles.infoContainer}>
+          <TouchableOpacity style={styles.infoBox} onPress={() => openModal('Comida')}>
+            <Ionicons name="restaurant" size={18} color="#000" />
+            <Text style={styles.infoText}>Comida</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.infoBox} onPress={() => openModal('Vestimenta')}>
+            <Ionicons name="shirt" size={18} color="#000" />
+            <Text style={styles.infoText}>Vestuario</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.infoBox} onPress={() => openModal('Entrenamiento')}>
+            <Ionicons name="barbell" size={18} color="#000" />
+            <Text style={styles.infoText}>Entrenar</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>
+              {modalContent === 'Comida' && 'Aquí te ofrecemos recomendaciones de comidas saludables.'}
+              {modalContent === 'Vestimenta' && 'Te ayudamos a elegir la mejor ropa para tus entrenamientos.'}
+              {modalContent === 'Ejercicios' && 'Consulta rutinas de ejercicios para mejorar tu cuerpo.'}
+            </Text>
+            <Button title="Cerrar" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
@@ -92,23 +164,50 @@ const BodyScreen = () => {
 // **Estilos**
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center', // Centra verticalmente
-    alignItems: 'center', // Centra horizontalmente
-    backgroundColor: '#f5f5f5',
-    paddingHorizontal: 20, // Añade espacio horizontal
+    flexGrow: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    paddingHorizontal: 20,
+    paddingBottom: 20,
   },
-  topText: {
-    alignSelf: 'flex-start',
-    fontSize: 18,
+  greetingText: {
+    fontSize: 20,
     fontWeight: 'bold',
+    marginTop: 20,
     marginBottom: 10,
-    textAlign: 'center', // Asegura que el texto esté alineado a la izquierda
+  },
+  motivationText: {
+    fontSize: 14,
+    fontStyle: 'italic',
+    marginBottom: 20,
+    textAlign: 'center',
   },
   instructionText: {
     fontSize: 16,
     marginBottom: 20,
     textAlign: 'center',
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginBottom: 20,
+  },
+  commonButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    backgroundColor: '#09726F',
+    marginVertical: 8,
+    width: 150,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   imageUploadContainer: {
     width: 200,
@@ -133,8 +232,51 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   resultText: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
+  },
+  infoContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  infoBox: {
+    width: 80,
+    height: 80,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: '#09726F',
+    borderWidth: 1,
+    borderRadius: 40,
+   
+  },
+  infoText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    width: 300,
+    height: 200,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 20,
   },
 });
 

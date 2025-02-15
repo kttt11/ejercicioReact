@@ -4,12 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import SignIn from './screens/SignIn'; 
+import LoginScreen from './screens/LoginScreen';
 import RegistroScreen from './screens/RegistroScreen';
 import AppNavigator from './navigation/AppNavigator';
 import HomeScreen from './screens/HomeScreen';
 import 'react-native-gesture-handler';
 import EntrenarScreen from './screens/EntrenarScreen';
+import ContadorScreen from './screens/ContadorScreen';
 import PushupScreen from './screens/PushupScreen';
 import PerfilUser from './screens/PerfilUser';
 import RegistroAdicionalScreen from './screens/RegistroAdicionalScreen';
@@ -27,8 +28,11 @@ export default function App() {
 
       <Stack.Navigator initialRouteName="HomeScreen">
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="SignIn" component={SignIn} />
+        <Stack.Screen name="LoginScreen" component={LoginScreen} />
         <Stack.Screen name="Registro" component={RegistroScreen} />
+        <Stack.Screen name="Entrenar" component={EntrenarScreen} />
+        <Stack.Screen name="Pushup" component={PushupScreen} />
+        <Stack.Screen name="Contador" component={ContadorScreen} />
         <Stack.Screen name="EntrenarScreen" component={EntrenarScreen} />
         <Stack.Screen name="PushupScreen" component={PushupScreen} />
         <Stack.Screen name="PerfilUser" component={PerfilUser} />
@@ -37,7 +41,7 @@ export default function App() {
         <Stack.Screen name="EditPerfilScreen" component={EditPerfilScreen} />
         
         {/* Aquí incluimos el TabNavigator en lugar de Home */}
-        <Stack.Screen name="Perfil" component={AppNavigator} options={{ headerShown: false }} />
+        <Stack.Screen name="Body" component={AppNavigator} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

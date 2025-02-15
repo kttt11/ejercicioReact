@@ -1,11 +1,11 @@
-// TabNavigator.js
 import React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import ChatAssistantScreen from '../screens/ChatAssistantScreen';
+import EntrenarScreen from '../screens/EntrenarScreen';
 import BodyScreen from '../screens/BodyScreen';
-import EjerciciosScreen from '../screens/EjerciciosScreen';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+<<<<<<< HEAD
 import Perfil from '../screens/Perfil';
 import AntDesign from '@expo/vector-icons/AntDesign'
 import EntrenarScreen from '../screens/EntrenarScreen';
@@ -13,6 +13,8 @@ import PushupScreen from '../screens/PushupScreen';
 import PerfilUser from '../screens/PerfilUser';
 import RegistroAdicionalScreen from '../screens/RegistroAdicionalScreen';
 import EditPerfilScreen from '../screens/EditPerfilScreen';
+=======
+>>>>>>> origin/master
 
 
 const Tab = createBottomTabNavigator();
@@ -20,41 +22,43 @@ const Tab = createBottomTabNavigator();
 function AppNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName="Perfil"
+      initialRouteName="Cuerpo"
       screenOptions={{
         tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
-        tabBarActiveTintColor: 'black', // Color del texto activo (negro)
-        tabBarInactiveTintColor: 'rgb(80, 79, 79) ', // Color del texto inactivo (gris)
-        tabBarActiveBackgroundColor: '#09726F', // Color de fondo activo (celeste)
-
+        tabBarActiveTintColor: '#09726F', // Color del ícono activo (verde)
+        tabBarInactiveTintColor: 'rgb(80, 79, 79)', // Color del ícono inactivo (gris)
+        tabBarActiveBackgroundColor: '#FFFFFF', // Fondo blanco cuando activo
+        tabBarIconStyle: { // Mantener estilo de los íconos sin bordes
+          borderWidth: 0,  // Sin borde
+          borderColor: 'transparent', // Sin color de borde
+          borderRadius: 0, // Sin borde redondeado
+        },
       }}
     >
-
-
       <Tab.Screen
-        name="Perfil"
-        component={Perfil}
+        name="Cuerpo"
+        component={BodyScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <AntDesign name="user" size={24} color="black" />
+            <Ionicons name="body-outline" size={24} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Ejercicios"
-        component={EjerciciosScreen}
+        name="Entrenar"
+        component={EntrenarScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="arm-flex-outline" size={24} color="black" />
+            <MaterialCommunityIcons name="arm-flex-outline" size={24} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="Chat"
+        name="Chatbot"
         component={ChatAssistantScreen}
         options={{
           tabBarIcon: ({ color }) => (
-            <Ionicons name="chatbox-ellipses-outline" size={24} color="black" />
+            <Ionicons name="chatbox-ellipses-outline" size={24} color={color} />
           ),
         }}
       />

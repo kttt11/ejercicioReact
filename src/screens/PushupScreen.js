@@ -9,7 +9,7 @@ const PushupScreen = ({ route, navigation }) => {
     pushup: {
       title: "Push Up",
       description:
-        "Recóstate boca abajo y empuja con las manos para elevar el cuerpo hasta estirar los brazos.",
+        "Recuestate boca abajo y empuja con las manos para elevar el cuerpo hasta estirar los brazos.",
       image: require("../../assets/Pushup.gif"), // Usando require para el gif local
     },
     pressmilitar: {

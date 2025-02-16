@@ -5,6 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const TerminosCondiciones = () => {
   const navigation = useNavigation(); // Hook para manejar la navegación
+  console.log('Navigation in TerminosCondiciones:', navigation); // Registro del objeto navigation
 
   return (
     <View style={styles.container}>

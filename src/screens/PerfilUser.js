@@ -3,13 +3,16 @@ import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-na
 import Icon from 'react-native-vector-icons/Ionicons';
 
 const PerfilUser = ({ navigation }) => {
+  console.log('Navigation in PerfilUser:', navigation); // Registro del objeto navigation
+
+
   const handleLogout = () => {
     Alert.alert(
       "Cerrar sesión",
       "¿Estás seguro de que quieres cerrar sesión?",
       [
         { text: "Cancelar", style: "cancel" },
-        { text: "Sí", onPress: () => navigation.replace('SignIn') }
+        { text: "Sí", onPress: () => navigation.replace('LoginScreen') }
       ]
     );
   };
@@ -24,7 +27,7 @@ const PerfilUser = ({ navigation }) => {
       {/* Sección de imagen de perfil */}
       <View style={styles.profileSection}>
         <Image
-          source={{ uri: 'https://cdn-icons-png.flaticon.com/128/3415/3415756.png' }} // Imagen de ejemplo
+          source={{ uri: 'https://cdn-icons-png.flaticon.com/128/3415/3415756.png' }} // Imagen de icono
           style={styles.profileImage}
         />
       </View>

@@ -1,28 +1,21 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
-import { 
-  EXPO_PUBLIC_API_KEY, 
-  EXPO_PUBLIC_AUTH_DOMAIN, 
-  EXPO_PUBLIC_PROJECT_ID, 
-  EXPO_PUBLIC_STORAGE_BUCKET, 
-  EXPO_PUBLIC_MESSAGING_SENDER_ID, 
-  EXPO_PUBLIC_APP_ID, 
-  EXPO_PUBLIC_MEASUREMENT_ID 
-} from '@env';
+import { initializeAuth, getReactNativePersistence } from 'firebase/auth';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Configuración de Firebase
+// Variables de entorno importadas con process.env
 const firebaseConfig = {
-  apiKey: EXPO_PUBLIC_API_KEY,
-  authDomain: EXPO_PUBLIC_AUTH_DOMAIN,
-  projectId: EXPO_PUBLIC_PROJECT_ID,
-  storageBucket: EXPO_PUBLIC_STORAGE_BUCKET,
-  messagingSenderId: EXPO_PUBLIC_MESSAGING_SENDER_ID,
-  appId: EXPO_PUBLIC_APP_ID,
-  measurementId: EXPO_PUBLIC_MEASUREMENT_ID,
+  apiKey: process.env.EXPO_PUBLIC_API_KEY,
+  authDomain: process.env.EXPO_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.EXPO_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.EXPO_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.EXPO_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.EXPO_PUBLIC_APP_ID,
 };
 
-// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 
-export { app, auth };
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
+
+export { auth };

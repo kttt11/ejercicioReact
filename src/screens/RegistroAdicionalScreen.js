@@ -65,7 +65,7 @@ const RegistroAdicionalScreen = ({ navigation }) => {
                   'Este correo ya está asociado a una cuenta. ¿Quieres iniciar sesión?',
                   [
                     { text: 'Cancelar', style: 'cancel' },
-                    { text: 'Iniciar sesión', onPress: () => navigation.navigate('SignIn') },
+                    { text: 'Iniciar sesión', onPress: () => navigation.navigate('LoginScreen') },
                   ]
                 );
                 return;
@@ -106,8 +106,8 @@ const RegistroAdicionalScreen = ({ navigation }) => {
                       setAcceptedTerms(false);
                       setProfileImage(null);
 
-                      // Redirección a SignIn
-                      navigation.navigate('SignIn');
+                      // Redirección a LoginScreen
+                      navigation.navigate('LoginScreen');
                     },
                   },
                 ]

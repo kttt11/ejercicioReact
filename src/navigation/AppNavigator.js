@@ -14,14 +14,14 @@ function AppNavigator() {
     <Tab.Navigator
       initialRouteName="Cuerpo"
       screenOptions={{
-        tabBarStyle: { backgroundColor: '#FFFFFF' }, // Barra de navegación blanca
-        tabBarActiveTintColor: '#09726F', // Color del ícono activo (verde)
-        tabBarInactiveTintColor: 'rgb(80, 79, 79)', // Color del ícono inactivo (gris)
-        tabBarActiveBackgroundColor: '#FFFFFF', // Fondo blanco cuando activo
-        tabBarIconStyle: { // Mantener estilo de los íconos sin bordes
-          borderWidth: 0,  // Sin borde
-          borderColor: 'transparent', // Sin color de borde
-          borderRadius: 0, // Sin borde redondeado
+        tabBarStyle: { backgroundColor: '#FFFFFF' }, 
+        tabBarActiveTintColor: '#09726F', 
+        tabBarInactiveTintColor: 'rgb(80, 79, 79)', 
+        tabBarActiveBackgroundColor: '#FFFFFF', 
+        tabBarIconStyle: { 
+          borderWidth: 0,  
+          borderColor: 'transparent', 
+          borderRadius: 0, 
         },
       }}
     >

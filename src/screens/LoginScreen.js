@@ -1,19 +1,19 @@
-import * as React from 'react';
+import { useState } from 'react'; // Importa useState directamente
 import { View, Image, Alert, StyleSheet } from 'react-native';
 import { TextInput, Button, Checkbox, Text } from 'react-native-paper';
 import { auth } from '../../firebaseConfig'; 
 import { signInWithEmailAndPassword } from 'firebase/auth'; 
 
-
 const logo = require('../../assets/LogoHomeV2.png'); // Importa el logo
 
 const LoginScreen = ({ navigation }) => {
-  const [email, setEmail] = React.useState('');
-  const [password, setPassword] = React.useState('');
-  const [rememberMe, setRememberMe] = React.useState(false);
-  const [emailError, setEmailError] = React.useState('');
-  const [passwordError, setPasswordError] = React.useState('');
-  const [termsAccepted, setTermsAccepted] = React.useState(false);
+  // Declaración de estados usando useState
+  const [email, setEmail] = useState(''); // Estado para el correo electrónico
+  const [password, setPassword] = useState(''); // Estado para la contraseña
+  const [rememberMe, setRememberMe] = useState(false); // Estado para recordar usuario
+  const [emailError, setEmailError] = useState(''); // Estado para errores de email
+  const [passwordError, setPasswordError] = useState(''); // Estado para errores de contraseña
+  const [termsAccepted, setTermsAccepted] = useState(false); // Estado para aceptar términos
 
   const handleLogin = async () => {
     // Validar entradas
@@ -32,7 +32,7 @@ const LoginScreen = ({ navigation }) => {
       navigation.navigate('Body'); // Navega a la pantalla Ejercicios
     } catch (error) {
       console.error(error);
-      Alert.alert('Error usuario o contraseña mal ingresados'); // Muestra un mensaje de error si falla el inicio de sesión
+      Alert.alert('Error', 'Usuario o contraseña mal ingresados'); // Muestra un mensaje de error si falla el inicio de sesión
     }
   };
 
@@ -212,4 +212,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default LoginScreen;

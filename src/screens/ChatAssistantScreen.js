@@ -15,7 +15,7 @@ const ChatAssistantScreen = () => {
   // Función para obtener respuesta del chatbot
   const responsechatbot = async (messageQ) => {
     try {
-      const response = await axios.post("http://192.168.0.104:8000/chatbot", {
+      const response = await axios.post("http://192.168.255.176:8000/chatbot", {
         message: messageQ,
       });
 

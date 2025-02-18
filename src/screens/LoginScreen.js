@@ -154,7 +154,7 @@ const LoginScreen = ({ navigation }) => {
 
       <Text style={styles.signupText}>
         ¿No tienes una cuenta?{' '}
-        <Text onPress={() => navigation.navigate('Registro')} style={styles.signupLink}>
+        <Text onPress={() => navigation.navigate('RegistroAdicional')} style={{ color: '#2196F3' }}>
           Regístrate aquí.
         </Text>
       </Text>

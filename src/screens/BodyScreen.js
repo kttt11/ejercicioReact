@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
-const API_URL = "http://192.168.255.176:8000/analyze-body/"; 
+const API_URL = "http://192.168.0.103:8000/analyze-body/"; 
 
 const BodyScreen = () => {
   const [selectedImage, setSelectedImage] = useState(null);
